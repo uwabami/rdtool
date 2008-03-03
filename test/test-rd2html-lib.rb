@@ -172,11 +172,11 @@ class TestRD2HTMLVisitor < Test::Unit::TestCase
   end
 
   def expect_for_hl1(children)
-    %|<h1><a name="label:0" id="label:0">#{children}</a></h1><!-- RDLabel: "headline 1" -->|
+    %|<h1><a name="label:0" id="label:0">#{children.join('')}</a></h1><!-- RDLabel: "headline 1" -->|
   end
 
   def expect_for_hl2(children)
-    %|<h2><a name="label:1" id="label:1">#{children}</a></h2><!-- RDLabel: "headline 2" -->|
+    %|<h2><a name="label:1" id="label:1">#{children.join('')}</a></h2><!-- RDLabel: "headline 2" -->|
   end
 
   def test_apply_to_TextBlock

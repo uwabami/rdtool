@@ -163,6 +163,7 @@ module RD
     def apply_to_Headline(element, title)
       anchor = get_anchor(element)
       label = hyphen_escape(element.label)
+      title = title.join("")
       %Q[<h#{element.level}><a name="#{anchor}" id="#{anchor}">#{title}</a>] +
       %Q[</h#{element.level}><!-- RDLabel: "#{label}" -->]
     end

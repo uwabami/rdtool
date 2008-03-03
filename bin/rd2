@@ -1,4 +1,5 @@
-#! /usr/bin/ruby1.8
+#! /usr/bin/ruby1.8 -Kn
+# -*- coding: ASCII-8BIT -*-
 =begin
 = NAME
 rd2 - converter from RD to other mark-up language.
@@ -101,7 +102,7 @@ ARGV.options do |q|
       end
     end
   end
-  
+
   q.on("-oNAME",
        String,
        "indicate base name of output file") do |i|
@@ -110,21 +111,22 @@ ARGV.options do |q|
 
   q.on("--out-code=KCODE",
        Kconv::NAME2CONST.keys, Kconv::NAME_ALIAS,
-       "character encoding of output.(jis|euc|sjis|utf8)") do |out_code|
+       "character encoding of output.(jis|euc|sjis|utf8)") do |i|
+    out_code = i
   end
       
   q.on("--output-index",
        "output method index file (*.rmi)") do |i|
     output_index = true
   end
-  
+
   q.on("-IPATH", "--include-path=PATH",
        String,
        "add PATH to list of include path") do |i|
     # add to include path
     include_path.unshift(i)
   end
-  
+
   # accept "PART:FILTER" and "PART"
   q.on("--with-part=PART",
        /(\w+)(?:\s*:\s*(\w+))?/,
@@ -134,7 +136,7 @@ ARGV.options do |q|
       include_path.push(RD::RDTree.tmp_dir)
     end
   end
-  
+
   q.on("--from-rdo",
        "load from *.rdo instead of *.rd") do
     from_rdo = true
@@ -148,7 +150,7 @@ ARGV.options do |q|
     STDERR.puts $Visitor_Class.version if $Visitor_Class
     exit(0)
   end
-  
+
   q.on_tail("--help",
 	    "print this message") do
     STDERR.print(q.to_s)
@@ -181,9 +183,9 @@ end
 # make tree (but not parsed yet)
 if from_rdo
   rdos = []
-  ARGV.each do |i|
-    rdos.push(File.open(i))
-    dirname = File.dirname(i)
+  ARGV.each do |path|
+    rdos.push(File.open(path))
+    dirname = File.dirname(path)
     include_path.push(dirname, dirname + "/include")
   end
   tree = RDTree.new_from_rdo(*rdos)
