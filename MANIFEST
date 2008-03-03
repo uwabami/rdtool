@@ -6,6 +6,8 @@ README.rd
 README.rd.ja
 bin/rd2
 bin/rdswap.rb
+doc/rd-draft.html
+doc/rd-draft.ja.html
 doc/rd-draft.rd
 doc/rd-draft.rd.ja
 lib/rd/block-element.rb
