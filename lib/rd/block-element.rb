@@ -100,8 +100,14 @@ module RD
     end
     
     def each_line
-      @content.each do |i|
-	yield(i)
+      if @content.respond_to?(:each_line)
+        @content.each_line {|i|
+	  yield i
+	}
+      else
+        @content.each {|i|
+	  yield i
+	}
       end
     end
   end

@@ -47,7 +47,8 @@ module RD
     
     def parse
       parser = RDParser.new
-      set_root(parser.parse(@src.to_a, self))
+      src = @src.respond_to?(:to_a) ? @src.to_a : @src.split(/^/)
+      set_root(parser.parse(src, self))
     end
 
     def set_root(element)

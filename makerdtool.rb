@@ -61,14 +61,14 @@ end
 
 # Parser make
 Dir.glob('lib/rd/*.ry') do |ry|
-  depend(ry.chomp(".ry") + ".tab.rb", ry) do
+  depend(ry.chomp(".ry") + ".tab.rb", [ry]) do
     run(racc, ry)
   end
 end
 
 # Document make
-Dir.glob('*.rd{,.*}') do |rd|
-  depend(rd.sub(/\.rd(.*)\z/, '\1.html'), rd) do
+Dir.glob('**/*.rd{,.*}') do |rd|
+  depend(rd.sub(/\.rd(.*)\z/, '\1.html'), [rd]) do
     html = rd.sub(/\.rd/, '')
     run(rd2, "-o", html, rd)
   end

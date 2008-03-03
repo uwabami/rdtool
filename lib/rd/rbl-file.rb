@@ -45,9 +45,11 @@ module RD
     end
 		   
     def string_to_labels(src)
-      src.collect do |i|
-	parse_line(i)
+      labels = []
+      src.each_line do |i|
+	labels << parse_line(i)
       end
+      labels
     end
 
     def parse_line(src)

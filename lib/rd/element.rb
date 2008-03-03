@@ -36,6 +36,11 @@ module RD
 
   # element which have children.
   module NonterminalElement
+    def initialize(*arg)
+      @temporary_document_structure = nil
+      super
+    end
+
     def children
       raise NotImplimentedError, "need #{self}#children."
     end
@@ -126,7 +131,9 @@ module RD
     end
 
     def indent2(str)
-      str.collect{|i| "  " + i }.join("")
+      buf = ''
+      str.each_line{|i| buf << "  " << i }
+      buf
     end
     private :indent2
   end
