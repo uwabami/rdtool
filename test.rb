@@ -1,4 +1,7 @@
 #!/usr/bin/env ruby
+
+$VERBOSE = true
+
 load 'test/test-block-parser.rb'
 load 'test/test-desclist-item.rb'
 load 'test/test-document-element.rb'
