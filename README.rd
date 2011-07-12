@@ -1,6 +1,6 @@
 # -*- mode: rd; coding: utf-8-unix; indent-tabs-mode: nil -*-
 =begin
-= RDtool 0.6.22
+= RDtool 0.6.23
 == What is RDtool
 
 RD is Ruby's POD. RDtool is formatter for RD.

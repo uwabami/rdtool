@@ -1,4 +1,4 @@
 
 module RD
-  PACKAGE_VERSION = "0.6.22"
+  PACKAGE_VERSION = "0.6.23"
 end
