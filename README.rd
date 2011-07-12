@@ -39,7 +39,7 @@ Please read doc/rd-draft.rd.
 == About bug report
 
 If you find a bug in RDtool, please E-mail me
-((<URL:mailto:moonwolf@moonwolf.com>)).
+((<URL:mailto:uwabami@gfd-dennou.org>)).
 
 == License
 
