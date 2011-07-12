@@ -128,8 +128,10 @@ ARGV.options do |q|
   end
 
   # accept "PART:FILTER" and "PART"
+  class PART ; end
+  q.accept(PART, /(\w+)(?:\s*:\s*(\w+))?/) {|s, p, f| [s, p, f] }
   q.on("--with-part=PART",
-       /(\w+)(?:\s*:\s*(\w+))?/,
+       PART,
        "include PART with Filter") do |src, part, filter|
     with_part.push([part, filter || part])
     unless include_path.index(RD::RDTree.tmp_dir)
