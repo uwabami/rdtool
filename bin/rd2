@@ -52,7 +52,7 @@ end
 include RD
 
 SYSTEM_NAME = "RDtool -- rd2"
-SYSTEM_VERSION = "$Version: 0.6.21$" #"
+SYSTEM_VERSION = "$Version: 0.6.22$" #"
 RD2_VERSION = Version.new_from_version_string(SYSTEM_NAME, SYSTEM_VERSION)
 
 # global vars
