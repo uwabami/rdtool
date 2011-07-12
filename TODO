@@ -8,8 +8,8 @@
 * 原作者のToshさんの認識していたバグが直っているかの確認(できるの?)
   ((<URL:http://pub.cozmixng.org/~the-rwiki/rw-cgi.rb?cmd=view;name=RDtool+Bug+List>))
 
-== 佐々木が気になっている事
+== 佐々木が気になっている事/やりたいこと
 
 * COPYRIGHT の表記. きちんとまとめておきたい|おくべき.
+* makerdtool.rb などを Rake のタスクに落としこむ
 * Windows での, テストしておくべき Ruby 環境ってドレなの?
-
