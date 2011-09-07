@@ -116,7 +116,7 @@ Gem::Specification.new do |s|
     "utils/rd-mode.el"
   ]
   s.homepage = %q{http://github.com/uwabami/rdtool}
-  s.licenses = [["GPL", "Ruby"]]
+  s.licenses = ['GPL', 'Ruby']
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.7.2}
   s.summary = %q{RDtool is formatter for RD.}
