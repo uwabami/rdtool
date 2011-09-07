@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rdtool}
-  s.version = "0.6.24"
+  s.version = "0.6.25"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Youhei SASAKI"]
@@ -116,7 +116,7 @@ Gem::Specification.new do |s|
     "utils/rd-mode.el"
   ]
   s.homepage = %q{http://github.com/uwabami/rdtool}
-  s.licenses = ['GPL', 'Ruby']
+  s.licenses = ["GPL", "Ruby"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.7.2}
   s.summary = %q{RDtool is formatter for RD.}
