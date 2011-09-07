@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rdtool}
-  s.version = "0.6.23"
+  s.version = "0.6.24"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Youhei SASAKI"]
-  s.date = %q{2011-07-13}
+  s.date = %q{2011-09-07}
   s.description = %q{RD is multipurpose documentation format created for documentating Ruby and output of Ruby world. You can embed RD into Ruby script. And RD have neat syntax which help you to read document in Ruby script. On the other hand, RD have a feature for class reference.}
   s.email = %q{uwabami@gfd-dennou.org}
   s.executables = ["rd2", "rdswap.rb"]
@@ -72,6 +72,7 @@ Gem::Specification.new do |s|
     "lib/rd/version.rb",
     "lib/rd/visitor.rb",
     "makerdtool.rb",
+    "rdtool.gemspec",
     "setup.rb",
     "test.rb",
     "test/data/includee1.html",
@@ -117,11 +118,10 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/uwabami/rdtool}
   s.licenses = [["GPL", "Ruby"]]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.7}
+  s.rubygems_version = %q{1.7.2}
   s.summary = %q{RDtool is formatter for RD.}
 
   if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
