@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rdtool}
-  s.version = "0.6.25"
+  s.version = "0.6.26"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Youhei SASAKI"]
-  s.date = %q{2011-09-07}
+  s.date = %q{2011-09-08}
   s.description = %q{RD is multipurpose documentation format created for documentating Ruby and output of Ruby world. You can embed RD into Ruby script. And RD have neat syntax which help you to read document in Ruby script. On the other hand, RD have a feature for class reference.}
   s.email = %q{uwabami@gfd-dennou.org}
   s.executables = ["rd2", "rdswap.rb"]
