@@ -13,14 +13,7 @@ Gem::Specification.new do |s|
   s.description = %q{RD is multipurpose documentation format created for documentating Ruby and output of Ruby world. You can embed RD into Ruby script. And RD have neat syntax which help you to read document in Ruby script. On the other hand, RD have a feature for class reference.}
   s.email = %q{uwabami@gfd-dennou.org}
   s.executables = ["rd2", "rdswap.rb"]
-  s.extra_rdoc_files = [
-    "LICENSE.txt",
-    "README.html",
-    "README.ja.html",
-    "README.rd",
-    "README.rd.ja",
-    "TODO"
-  ]
+  s.extra_rdoc_files = [ "LICENSE.txt" ]
   s.files = [
     "COPYING.txt",
     "Gemfile",
