@@ -13,6 +13,7 @@ Jeweler::Tasks.new do |gem|
   gem.description = %Q{RD is multipurpose documentation format created for documentating Ruby and output of Ruby world. You can embed RD into Ruby script. And RD have neat syntax which help you to read document in Ruby script. On the other hand, RD have a feature for class reference.}
   gem.email = "uwabami@gfd-dennou.org"
   gem.authors = ["Youhei SASAKI"]
+  gem.has_rdoc = false
   # dependencies defined in Gemfile
 end
 Jeweler::RubygemsDotOrgTasks.new

@@ -15,11 +15,6 @@ Gem::Specification.new do |s|
   s.executables = ["rd2", "rdswap.rb"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
-    "README.html",
-    "README.ja.html",
-    "README.rd",
-    "README.rd.ja",
-    "TODO"
   ]
   s.files = [
     "COPYING.txt",
