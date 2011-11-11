@@ -18,13 +18,9 @@ Jeweler::Tasks.new do |gem|
 end
 Jeweler::RubygemsDotOrgTasks.new
 
-require 'rake/testtask'
-Rake::TestTask.new(:test) do |test|
-  test.libs << 'lib'
-  test.libs << 'test'
-  test.pattern = 'test.rb'
-  test.verbose = true
+desc "Run tests"
+task :test do
+  exec_ruby = File.join(RbConfig::CONFIG['bindir'], RbConfig::CONFIG['ruby_install_name'])
+  exec("#{exec_ruby} -w -v -Ilib:test test.rb")
 end
-
 task :default => :test
-

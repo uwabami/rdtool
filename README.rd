@@ -1,6 +1,6 @@
 # -*- mode: rd; coding: utf-8; indent-tabs-mode: nil -*-
 =begin
-= RDtool 0.6.23
+= RDtool 0.6.30
 == What is RDtool
 
 RD is Ruby's POD. RDtool is formatter for RD.
@@ -38,8 +38,7 @@ Please read doc/rd-draft.rd.
 
 == About bug report
 
-If you find a bug in RDtool, please E-mail me
-((<URL:mailto:uwabami@gfd-dennou.org>)).
+If you find a bug in RDtool, please add new ((<"issues at gihtub"|URL:https://github.com/uwabami/rdtool/issues?sort=created&direction=desc&state=open>)), or E-mail me ((<URL:mailto:uwabami@gfd-dennou.org>)).
 
 == License
 
@@ -48,5 +47,17 @@ LICNESE.txt and COPYING.txt.  This distribution of RDtool include files
 that are copyrighted by somebody else, and these files can be
 re-distributed under those own license.  These files include the
 condition of those licenses in themselves.
+
+The license information for every files is as follows.
+
+:Files: */
+  * Copyright: 2004 MoonWolf <moonwolf@moonwolf.com>
+  * License: Ruby's License or GPL-2+
+:Files: setup.rb
+  * Copyright: 2000-2006 Minero Aoki
+  * License: LGPL-2.1
+:Files: utils/rd-mode.el
+  * Copyright: 1999 Koji Arai, Toshiro Kuwabara.
+  * License: GPL-2+
 
 =end
