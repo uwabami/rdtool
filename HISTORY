@@ -1,3 +1,4 @@
+# -*- mode: rd; coding: utf-8; indent-tabs-mode: nil -*-
 =begin
 = MANIFEST
 
@@ -49,7 +50,7 @@
 :lib/rd/rdinlineparser.tab.rb
   pre-compiled racc-generated parser. this works without Racc itself.
 :utils/rd-mode.el (Arai, Tosh)
-  Emacs major mode for RD. 
+  Emacs major mode for RD.
 :doc/rd-draft.rd(.ja)
   RD working draft.(obsolete)
 :makrrdtool.rb
@@ -66,6 +67,11 @@ RDtool include files which is copyrighted by somebody elses.
 Please read these files for those lisence info.
 
 = CHANGES
+:0.6.31
+  * Version bump from 0.6.21
+  * Change Maintainer to Youhei SASAKI
+  * Create gem. Many thanks to Kouhei Suto!!
+  * apply OptionParser Issue, Thanks to Masaki Hasegawa!!
 :0.6.21
   * setup.rb version up -> 3.4.1
   * fix for Ruby 1.9.
@@ -92,7 +98,7 @@ Please read these files for those lisence info.
   * now rd2man generates better output. (thank you, Sugiura-san.)
 :0.6.13
   * now tabs are expanded into spaces.
-  * removed <p> for TextBlock in DescListItem when the TextBlock is only 
+  * removed <p> for TextBlock in DescListItem when the TextBlock is only
     element of ListItem.
   * a line of `---\n' are now regarded as Verbatim (or TextBlock).
   * changed style of HTML anchors from `label:' to `label-'.
@@ -255,7 +261,7 @@ Please read these files for those lisence info.
   * reborned for new RD.
   * \cle's util/rdswap.rb. thanks > \cle
 :0.2.2 (1999/08/17)
-  * bad LaTeX format is fixed.(rd2latex-lib.rb) thanks > gotoken 
+  * bad LaTeX format is fixed.(rd2latex-lib.rb) thanks > gotoken
   * bug in parse of Verbatim is fixed.(rdfmt.rb)
   * bug in parse of term part of DescListItem is fixed.
     (rdfmt.rb, rd2html-lib.rb, rd2latex-lib.rb)
@@ -279,6 +285,9 @@ Please read these files for those lisence info.
   * first release version
 
 = ABOUT BUG REPORT
-If you find a bug in RDtool, please E-mail me
-((<URL:mailto:moonwolf@moonwolf.com>)).
+
+If you find a bug in RDtool, please add new
+((<"issues at gihtub"|URL:https://github.com/uwabami/rdtool/issues>)),
+or E-mail me ((<URL:mailto:uwabami@gfd-dennou.org>)).
+
 =end

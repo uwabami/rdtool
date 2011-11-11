@@ -1,6 +1,6 @@
 # -*- mode: rd; coding: utf-8; indent-tabs-mode: nil -*-
 =begin
-= RDtool 0.6.30
+= RDtool 0.2
 == RDってなに？
 
 RDはRubyにおけるPOD(Plain Old Documentation)のようなものです。
@@ -41,7 +41,16 @@ doc/rd-draft.rdを読んでください。
 
 == バグ報告
 
-バグを見付けた時は、((<"github の issues"|URL:https://github.com/uwabami/rdtool/issues?sort=created&direction=desc&state=open>))に報告するか, 次のアドレスまでメールしてください。((<URL:mailto:uwabami@gfd-dennou.org>))
+If you find a bug in RDtool, please add new
+((<"issues at gihtub"|URL:https://github.com/uwabami/rdtool/issues>)),
+or E-mail me ((<URL:mailto:uwabami@gfd-dennou.org>)).
+
+
+バグを見付けた時は、
+((<"github の issues"|URL:https://github.com/uwabami/rdtool/issues>))
+に報告するか、
+次のアドレスまでメールを下さると幸いです:
+((<URL:mailto:uwabami@gfd-dennou.org>))
 
 == ライセンス
 
@@ -50,10 +59,16 @@ RDtoolのパッケージにはTosh以外の人が著作権を持つファイル�
 それらのファイルについての配布条件はファイル自体に書かれたライセンスの下で
 行ってください。
 
-ファイル毎のライセンス表記は以下の通りです.
+ファイル毎のライセンス表記は以下の通りです。
 
 :Files: */
-  * Copyright: 2004 MoonWolf <moonwolf@moonwolf.com>
+  * Copyright: 2004 MoonWolf
+  * License: Ruby's License or GPL-2+
+:Files: bin/rdswap
+  * Copyright: 1999 C.Hintze
+  * License: Ruby's License or GPL-2+
+:Files: lib/rd/rd2man-lib.rb
+  * Copyright: 2000  WATANABE Hirofumi
   * License: Ruby's License or GPL-2+
 :Files: setup.rb
   * Copyright: 2000-2006 Minero Aoki

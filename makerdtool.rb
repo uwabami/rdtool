@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
+# -*- mode: ruby; coding: utf-8; -*-
 # Make for rdtool.
 # Copyright (C) 2004 MoonWolf <moonwolf@moonwolf.com>
+# Copyright (C) 2011 Youhei SASAKI <uwabami@gfd-dennou.org>
+
 require 'rbconfig'
 require 'optparse'
 require 'find'
@@ -26,17 +29,20 @@ opt.on('--quiet')          {$quiet = true}
 opt.parse!(ARGV)
 
 Find.find('.') {|path|
-  path = File.expand_path(path)
-  next if FileTest.directory? path
-  next if path=~/\/(\..+|HISTORY|test-version\.rb)\z/
-  next unless orig = IO.read(path)
-  after = orig.gsub(/0\.\d\.\d+/, version)
-  unless after == orig
-    open(path,'wb') {|f|
-      f.write after
-    }
+  unless path =~ /(\.git.*)|(pkg.*)/
+    path = File.expand_path(path)
+    next if FileTest.directory? path
+    next if path=~/\/(\..+|HISTORY|test-version\.rb)\z/
+    next unless orig = IO.read(path)
+    after = orig.gsub(/0\.\d\.\d+/, version)
+    unless after == orig
+      open(path,'wb') {|f|
+        f.write after
+      }
+    end
   end
 }
+
 
 racc ||= 'racc'
 rd2 = File.join(File.dirname(File.expand_path(__FILE__)),'bin','rd2')
