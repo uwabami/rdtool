@@ -54,7 +54,7 @@ or E-mail me ((<URL:mailto:uwabami@gfd-dennou.org>)).
 
 == ライセンス
 
-RDtoolはRuby's LicenseかGPLの下で使用/配布/改造してください。
+RDtoolはRuby's LicenseかGPL-2+の下で使用/配布/改造してください。
 RDtoolのパッケージにはTosh以外の人が著作権を持つファイルが含まれています。
 それらのファイルについての配布条件はファイル自体に書かれたライセンスの下で
 行ってください。

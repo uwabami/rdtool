@@ -44,8 +44,8 @@ or E-mail me ((<URL:mailto:uwabami@gfd-dennou.org>)).
 
 == License
 
-You can use/re-distribute/change RDtool under Ruby's License or GPL, see
-LICNESE.txt and COPYING.txt.  This distribution of RDtool include files
+You can use/re-distribute/change RDtool under Ruby's License or GPL-2+, 
+see LICNESE.txt and COPYING.txt.  This distribution of RDtool include files
 that are copyrighted by somebody else, and these files can be
 re-distributed under those own license.  These files include the
 condition of those licenses in themselves.
