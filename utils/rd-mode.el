@@ -66,6 +66,7 @@
   (rd-hide-other-block-all)
   (rd-setup-keys)
   (setq indent-tabs-mode nil)
+  (setq imenu-create-index-function 'rd-imenu-create-index)
   (run-hooks 'rd-mode-hook)
 )
 
@@ -419,6 +420,46 @@
     (if item (insert-string item) )
     )
   )
+
+(defun rd-imenu-create-index ()
+  (let ((root '(nil . nil))
+        cur-alist
+        (cur-level 0)
+        (pattern "^\\(=+\\)[ \t\v\f]*\\(.*?\\)[ \t\v\f]*$")
+        (empty-heading "-")
+        (self-heading ".")
+        pos level heading alist)
+    (save-excursion
+      (goto-char (point-min))
+      (while (re-search-forward pattern (point-max) t)
+        (setq heading (match-string-no-properties 2)
+              level (min 6 (length (match-string-no-properties 1)))
+              pos (match-beginning 1))
+        (if (= (length heading) 0)
+            (setq heading empty-heading))
+        (setq alist (list (cons heading pos)))
+        (cond
+         ((= cur-level level)		; new sibling
+          (setcdr cur-alist alist)
+          (setq cur-alist alist))
+         ((< cur-level level)		; first child
+          (dotimes (i (- level cur-level 1))
+            (setq alist (list (cons empty-heading alist))))
+          (if cur-alist
+              (let* ((parent (car cur-alist))
+                     (self-pos (cdr parent)))
+                (setcdr parent (cons (cons self-heading self-pos) alist)))
+            (setcdr root alist))	; primogenitor
+          (setq cur-alist alist
+                cur-level level))
+         (t				; new sibling of an ancestor
+          (let ((sibling-alist (last (cdr root))))
+            (dotimes (i (1- level))
+              (setq sibling-alist (last (cdar sibling-alist))))
+            (setcdr sibling-alist alist)
+            (setq cur-alist alist
+                  cur-level level))))))
+    (cdr root)))
 
 (provide 'rd-mode)
 ;;; rd-mode.el ends here
