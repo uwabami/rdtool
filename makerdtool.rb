@@ -4,12 +4,12 @@
 # Copyright (C) 2004 MoonWolf <moonwolf@moonwolf.com>
 # Copyright (C) 2011 Youhei SASAKI <uwabami@gfd-dennou.org>
 
-require 'rbconfig'
+require 'rbconfig' unless defined? RbConfig
 require 'optparse'
 require 'find'
 
-bindir     = Config::CONFIG['bindir']
-sitelibdir = Config::CONFIG['sitelibdir']
+bindir     = RbConfig::CONFIG['bindir']
+sitelibdir = RbConfig::CONFIG['sitelibdir']
 racc       = nil
 version    = ARGV.shift || File.read("VERSION")
 $dryrun    = false

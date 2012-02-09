@@ -455,7 +455,7 @@ def make_reference_from_label(label)
 end
 
 def on_error(et, ev, values)
-  lines_of_rest = @src.rest.to_a.length
+  lines_of_rest = (RUBY_VERSION >= '1.9.0' ? @src.rest.lines.to_a.length : @src.rest.to_a.length )
   prev_words = prev_words_on_error(ev)
   at = 4 + prev_words.length
   message = <<-MSG

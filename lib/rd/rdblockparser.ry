@@ -302,7 +302,7 @@ def next_token
 	part_out = @tree.filter[@in_part].call(part)
 	
 	if @tree.filter[@in_part].mode == :rd # if output is RD formated
-	  subtree = parse_subtree(part_out.to_a)
+	  subtree = parse_subtree( (RUBY_VERSION >= '1.9.0' ? part_out.lines.to_a : part_out.to_a ) )
 	else # if output is target formated
 	  basename = TMPFILE.join('.')
 	  TMPFILE[-1] += 1
