@@ -70,7 +70,7 @@ Please read these files for those lisence info.
 :0.6.31
   * Version bump from 0.6.21
   * Change Maintainer to Youhei SASAKI
-  * Create gem. Many thanks to Kouhei Suto!!
+  * Create gem. Many thanks to Kouhei Sutou!!
   * apply OptionParser Issue, Thanks to Masaki Hasegawa!!
 :0.6.21
   * setup.rb version up -> 3.4.1
