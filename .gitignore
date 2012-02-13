@@ -1,6 +1,6 @@
 Gemfile.lock
-# jeweler generated
 pkg
-# html files
 *.html
 doc/*.html
+lib/rd/rdblockparser.tab.rb
+lib/rd/rdinlineparser.tab.rb
