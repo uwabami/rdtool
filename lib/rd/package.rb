@@ -1,4 +1,4 @@
-
+require 'rd/version'
 module RD
-  PACKAGE_VERSION = "0.6.31"
+  PACKAGE_VERSION = RD::VERSION
 end

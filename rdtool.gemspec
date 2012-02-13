@@ -1,3 +1,4 @@
+# -*- coding: utf-8; mode: ruby -*-
 Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.rubygems_version = "1.3.5"
@@ -12,13 +13,12 @@ Gem::Specification.new do |s|
   s.email = "uwabami@gfd-dennou.org"
   s.homepage = "http://github.com/uwabami/rdtool"
   s.licenses = ["GPL-2+", "Ruby"]
-
   s.require_paths = ["lib"]
-
-  s.executables = ["rd2", "rdswap.rb"]
+  s.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  s.test_files = `git ls-files -- test/*`.split("\n")
 
   s.add_development_dependency('racc', "~> 1.4.6")
-  s.add_development_dependency('rake', ">= 0")
+  s.add_development_dependency('rake', ">= 0") unless defined? Rake
 
   # = MANIFEST =
   s.files = %w[
@@ -26,6 +26,8 @@ Gem::Specification.new do |s|
     Gemfile
     HISTORY
     LICENSE.txt
+    README.html
+    README.ja.html
     README.rd
     README.rd.ja
     Rakefile
@@ -33,6 +35,8 @@ Gem::Specification.new do |s|
     VERSION
     bin/rd2
     bin/rdswap.rb
+    doc/rd-draft.html
+    doc/rd-draft.ja.html
     doc/rd-draft.rd
     doc/rd-draft.rd.ja
     lib/rd/block-element.rb
@@ -115,5 +119,4 @@ Gem::Specification.new do |s|
   ]
   # = MANIFEST =
 
-  s.test_files = s.files.select { |path| path =~/^test\/test-.*\.rb/ }
 end

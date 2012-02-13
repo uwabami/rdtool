@@ -16,7 +16,7 @@ module RD
     include MethodParse
 
     SYSTEM_NAME = "RDtool -- RD2ManVisitor"
-    SYSTEM_VERSION = "$Version: 0.6.31$" #"
+    SYSTEM_VERSION = "$Version: "+RD::VERSION+"$"
     VERSION = Version.new_from_version_string(SYSTEM_NAME, SYSTEM_VERSION)
 
     def self.version
