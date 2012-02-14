@@ -1,4 +1,5 @@
 module RD
+
   VERSION = '0.6.31'
 
   class Version

@@ -1,7 +1,9 @@
 # -*- mode: ruby; coding: utf-8 -*-
 require 'rubygems'
 require 'rake'
+require 'rake/packagetask'
 require 'rake/testtask'
+require 'rake/clean'
 require 'date' unless defined? Date
 
 #############################################################################
@@ -40,11 +42,12 @@ end
 # src files for parser and html documents
 RACC_SRC = FileList['lib/rd/*.ry']
 RACC_GENERATED = RACC_SRC.ext('.tab.rb')
-HTML_SRC = FileList['**/*.rd']
+HTML_SRC = FileList['**/*.rd'].reject{|f| f =~/pkg/}
 HTML_GENERATED = HTML_SRC.ext('.html')
-HTML_JA_SRC = FileList['**/*.rd.ja']
+HTML_JA_SRC = FileList['**/*.rd.ja'].reject{|f| f =~/pkg/}
 HTML_JA_GENERATED = HTML_JA_SRC.collect{|x| x.gsub(/\.rd\.ja/,'.ja.html')}
 GENERATED_FILES = RACC_GENERATED + HTML_GENERATED + HTML_JA_GENERATED
+CLOBBER.push GENERATED_FILES
 
 desc "Update parser"
 task :racc => RACC_GENERATED
@@ -69,24 +72,14 @@ HTML_JA_SRC.each do |f|
 end
 
 task :default => :test
+desc "=> clobber"
+task :distclean => :clobber
 
 task :test => :racc
 Rake::TestTask.new do |t|
   t.libs << "test"
   t.test_files = FileList['test/test-*.rb']
   t.verbose = true
-end
-
-desc "remove pkg"
-task :clean do
-  sh "rm -fr pkg"
-end
-desc "remove all generated files"
-task :distclean => :clean do
-  sh "rm -fr VERSION"
-  sh "rm -fr #{RACC_GENERATED.join(' ')}"
-  sh "rm -fr #{HTML_GENERATED.join(' ')}"
-  sh "rm -fr #{HTML_JA_GENERATED.join(' ')}"
 end
 
 desc "Create tag v#{version} and build and push #{gem_file} to Rubygems"
@@ -102,19 +95,21 @@ task :release => :build do
   sh "gem push pkg/#{name}-#{version}.gem"
 end
 
-
 desc "Generate #{gem_file}"
-task :build => [:gemspec] do
+task :build => [:gemspec, :package] do
   sh "mkdir -p pkg"
   sh "gem build #{gemspec_file}"
   sh "mv #{gem_file} pkg/"
 end
 
 desc "Update #{gemspec_file}"
-task :gemspec => [:racc, :html, :validate] do
+task :gemspec => [:racc, :doc] do
+  unless File.read('HISTORY') =~ /#{version}/
+    puts "Update HISTORY!!"
+    exit!
+  end
   spec = File.read(gemspec_file)
   head, manifest, tail = spec.split("  # = MANIFEST =\n")
-  # replace name version and date
   replace_header(head, :name)
   replace_header(head, :version)
   replace_header(head, :date)
@@ -131,3 +126,27 @@ task :gemspec => [:racc, :html, :validate] do
   puts "Update #{gemspec_file}"
 end
 
+Rake::PackageTask.new("rdtool", "#{version}") do |t|
+  t.need_tar_gz = true
+  t.package_files.include GENERATED_FILES
+  t.package_files.include('lib/**/*')
+  t.package_files.include('README*')
+  t.package_files.include('bin/*')
+  t.package_files.include('doc/*')
+  t.package_files.include('utils')
+  t.package_files.include('*.txt')
+  t.package_files.include('HISTORY')
+  t.package_files.include('setup.rb')
+end
+
+desc "Update/Sync RD::VERSION"
+task :bump_version do
+  FileList['README*'].each do |path|
+    #path = File.expand_path(path)
+    orig = IO.read(path)
+    after = orig.sub(/(^=\sRDtool\s)\d+\.\d+\.\d+$/, '\1' + version)
+    unless after == orig
+      File.open(path, 'wb'){|f| f.write after }
+    end
+  end
+end

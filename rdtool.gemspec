@@ -32,7 +32,6 @@ Gem::Specification.new do |s|
     README.rd.ja
     Rakefile
     TODO
-    VERSION
     bin/rd2
     bin/rdswap.rb
     doc/rd-draft.html
