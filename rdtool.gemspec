@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = "1.3.5"
 
   s.name = 'rdtool'
-  s.version = '0.6.32'
+  s.version = '0.6.33'
   s.date = '2012-02-15'
 
   s.summary = "RDtool is formatter for RD."
@@ -73,7 +73,6 @@ Gem::Specification.new do |s|
     lib/rd/tree.rb
     lib/rd/version.rb
     lib/rd/visitor.rb
-    makerdtool.rb
     rdtool.gemspec
     setup.rb
     test/data/includee1.html

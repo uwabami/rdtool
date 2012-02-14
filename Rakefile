@@ -102,7 +102,7 @@ task :build => [:gemspec, :package] do
 end
 
 desc "Update #{gemspec_file}"
-task :gemspec => [:racc, :doc] do
+task :gemspec => [:racc, :doc, :bump_version] do
   unless File.read('HISTORY') =~ /#{version}/
     puts "Update HISTORY!!"
     exit!

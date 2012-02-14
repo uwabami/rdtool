@@ -53,8 +53,6 @@
   Emacs major mode for RD.
 :doc/rd-draft.rd(.ja)
   RD working draft.(obsolete)
-:makrrdtool.rb
-  script to make Makefile.
 :README.rd(.ja)
   README file.
 :HISTORY
@@ -67,6 +65,9 @@ RDtool include files which is copyrighted by somebody elses.
 Please read these files for those lisence info.
 
 = CHANGES
+:0.6.33
+  * Typo fixed
+  * Remove makerdtool.rb, merge Rake task.
 :0.6.32
   * Fix for Ruby 1.9.1. Thanks to Shin-ya Murakami
   * Update Rakefile to create gem and .tar.gz, no longer needed jeweler.
