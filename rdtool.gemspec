@@ -3,9 +3,9 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.rubygems_version = "1.3.5"
 
-  s.name = "rdtool"
-  s.version = "0.6.31"
-  s.date = "2011-11-11"
+  s.name = 'rdtool'
+  s.version = '0.6.32'
+  s.date = '2012-02-15'
 
   s.summary = "RDtool is formatter for RD."
   s.description = "RD is multipurpose documentation format created for documentating Ruby and output of Ruby world. You can embed RD into Ruby script. And RD have neat syntax which help you to read document in Ruby script. On the other hand, RD have a feature for class reference."

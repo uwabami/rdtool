@@ -16,7 +16,6 @@ end
 def version
   require './lib/rd/version.rb'
   RD::VERSION
-  # File.read('VERSION')
 end
 
 def date

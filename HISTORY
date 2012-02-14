@@ -67,6 +67,10 @@ RDtool include files which is copyrighted by somebody elses.
 Please read these files for those lisence info.
 
 = CHANGES
+:0.6.32
+  * Fix for Ruby 1.9.1. Thanks to Shin-ya Murakami
+  * Update Rakefile to create gem and .tar.gz, no longer needed jeweler.
+  * Add RD::Version into rd/version.rb
 :0.6.31
   * Version bump from 0.6.21
   * Change Maintainer to Youhei SASAKI
