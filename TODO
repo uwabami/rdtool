@@ -1,6 +1,9 @@
 # -*- mode: rd; coding: utf-8; indent-tabs-mode: nil -*-
 = TODO
 
+* HTML5 出力できるように
+  * 後方互換性を維持するならば, rd2html5-lib.rb でも作るのかな?
+
 == Moonwolf さんから指摘された事
 
 * Ruby1,9での動作確認(全機能)+encoding周り
@@ -10,6 +13,9 @@
 
 == 佐々木が気になっている事/やりたいこと
 
+* Windows での, テストしておくべき Ruby 環境ってドレなの?
+
+== Done
+
 * COPYRIGHT の表記. きちんとまとめておきたい|おくべき.
 * makerdtool.rb などを Rake のタスクに落としこむ
-* Windows での, テストしておくべき Ruby 環境ってドレなの?
