@@ -104,8 +104,8 @@ module RD
 
     def html_head
       ret = %|<head>\n|
-	ret << html_title + "\n"
-	ret << html_content_type + "\n" if html_content_type
+      ret << html_content_type + "\n" if html_content_type
+      ret << html_title + "\n"
       ret << link_to_css + "\n" if link_to_css
       ret << forward_links + "\n" if forward_links
       ret << backward_links + "\n" if backward_links
