@@ -134,6 +134,7 @@ Rake::PackageTask.new("rdtool", "#{version}") do |t|
   t.package_files.include('doc/*')
   t.package_files.include('utils')
   t.package_files.include('*.txt')
+  t.package_files.include('LGPL-2.1')
   t.package_files.include('HISTORY')
   t.package_files.include('setup.rb')
 end
