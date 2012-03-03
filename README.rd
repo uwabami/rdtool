@@ -42,24 +42,28 @@ If you find a bug in RDtool, please add new
 ((<"issues at gihtub"|URL:https://github.com/uwabami/rdtool/issues>)),
 or E-mail me ((<URL:mailto:uwabami@gfd-dennou.org>)).
 
-== License
+== Copyright and License
 
-You can use/re-distribute/change RDtool under Ruby's License or GPL-2+, 
-see LICNESE.txt and COPYING.txt.  This distribution of RDtool include files
-that are copyrighted by somebody else, and these files can be
-re-distributed under those own license.  These files include the
-condition of those licenses in themselves.
+You can use/re-distribute/change RDtool under Ruby's License or GPL-2+.
+see LICNESE.txt and COPYING.txt. This distribution of RDtool include
+files that are copyrighted by somebody else, and these files can be
+re-distributed under those own license.
 
-The license information for every files is as follows.
+These files include the condition of those licenses in themselves. The
+license information for every files is as follows.
 
 :Files: */
   * Copyright: 2004 MoonWolf <moonwolf@moonwolf.com>
-  * License: Ruby's License or GPL-2+
-:Files: bin/rdswap
-  * Copyright: 1999 C.Hintze
+               2011 Youhei SASAKI <uwabami@gfd-dennou.org>
   * License: Ruby's License or GPL-2+
 :Files: lib/rd/rd2man-lib.rb
   * Copyright: 2000  WATANABE Hirofumi
+  * License: Ruby's License or GPL-2+
+:Files: lib/rd/{head-filter,rd2html-ext-lib,rd2html-ext-opt}.rb
+  * Copyright: 2003 Rubikitch
+  * License: Ruby's License or GPL-2+
+:Files: bin/rdswap
+  * Copyright: 1999 C.Hintze
   * License: Ruby's License or GPL-2+
 :Files: setup.rb
   * Copyright: 2000-2006 Minero Aoki
