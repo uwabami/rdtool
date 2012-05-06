@@ -4,8 +4,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = "1.3.5"
 
   s.name = 'rdtool'
-  s.version = '0.6.33'
-  s.date = '2012-02-15'
+  s.version = '0.6.34'
+  s.date = '2012-05-06'
 
   s.summary = "RDtool is formatter for RD."
   s.description = "RD is multipurpose documentation format created for documentating Ruby and output of Ruby world. You can embed RD into Ruby script. And RD have neat syntax which help you to read document in Ruby script. On the other hand, RD have a feature for class reference."
@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
     COPYING.txt
     Gemfile
     HISTORY
+    LGPL-2.1
     LICENSE.txt
     README.html
     README.ja.html
@@ -45,6 +46,7 @@ Gem::Specification.new do |s|
     lib/rd/dot.rd2rc
     lib/rd/element.rb
     lib/rd/filter.rb
+    lib/rd/head-filter.rb
     lib/rd/inline-element.rb
     lib/rd/labeled-element.rb
     lib/rd/list.rb
@@ -54,9 +56,12 @@ Gem::Specification.new do |s|
     lib/rd/package.rb
     lib/rd/parser-util.rb
     lib/rd/post-install
+    lib/rd/pre-setup.rb
     lib/rd/rbl-file.rb
     lib/rd/rbl-suite.rb
     lib/rd/rd-struct.rb
+    lib/rd/rd2html-ext-lib.rb
+    lib/rd/rd2html-ext-opt.rb
     lib/rd/rd2html-lib.rb
     lib/rd/rd2html-opt.rb
     lib/rd/rd2man-lib.rb

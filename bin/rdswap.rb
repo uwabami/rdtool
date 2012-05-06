@@ -1,4 +1,4 @@
-#! /usr/bin/ruby1.8 -s
+#! /usr/bin/ruby1.9.1 -s
 #######
 # rdswap.rb (c) C.Hintze <c.hintze@gmx.net> 30.08.1999
 #######

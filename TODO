@@ -3,6 +3,7 @@
 
 * HTML5 出力できるように
   * 後方互換性を維持するならば, rd2html5-lib.rb でも作るのかな?
+* rd2html-ext-lib, Hash#index -> Hash#key
 
 == Moonwolf さんから指摘された事
 

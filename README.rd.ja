@@ -1,6 +1,6 @@
 # -*- mode: rd; coding: utf-8; indent-tabs-mode: nil -*-
 =begin
-= RDtool 0.6.33
+= RDtool 0.6.34
 == RDってなに？
 
 RDはRubyにおけるPOD(Plain Old Documentation)のようなものです。

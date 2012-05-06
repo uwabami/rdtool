@@ -45,6 +45,9 @@
 :lib/rd/reference-resolver.rb
 :lib/rd/version.rb
 :lib/rd/rd2html-opt.rb
+:lib/rd/head-filter.rb
+:lib/rd/rd2html-ext-lib.rb
+:lib/rd/rd2html-ext-opt.rb
   non-published parts of RDtool.
 :lib/rd/rdblockparser.tab.rb
 :lib/rd/rdinlineparser.tab.rb
@@ -62,9 +65,14 @@ RDtool include files which is copyrighted by somebody elses.
   * Cle wrote bin/rdswap.rb. it's copyrighted by Cle.
   * Arai and Tosh wrote utils/rd-mode.el. it's copyrighted by Arai and Tosh.
   * Watanabe wrote lib/rd/rd2man-lib.rb. it's copyrighted by Watanabe.
+  * Rubikitch wrote lib/rd/{head-filter,rd2html-ext-lib,rd2html-ext-opt}.rb.
+    These are copyrighted by Rubikitch.
 Please read these files for those lisence info.
 
 = CHANGES
+:0.6.34
+  * Add LGPL-2.1 for setup.rb
+  * Add rd2html-ext-lib from rubikitch. Thanks!!
 :0.6.33
   * Typo fixed
   * Remove makerdtool.rb, merge Rake task.
