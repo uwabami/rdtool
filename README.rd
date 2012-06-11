@@ -52,24 +52,25 @@ re-distributed under those own license.
 These files include the condition of those licenses in themselves. The
 license information for every files is as follows.
 
-:Files: */
-  * Copyright: 2004 MoonWolf <moonwolf@moonwolf.com>
-               2011 Youhei SASAKI <uwabami@gfd-dennou.org>
-  * License: Ruby's License or GPL-2+
-:Files: lib/rd/rd2man-lib.rb
-  * Copyright: 2000  WATANABE Hirofumi
-  * License: Ruby's License or GPL-2+
-:Files: lib/rd/{head-filter,rd2html-ext-lib,rd2html-ext-opt}.rb
-  * Copyright: 2003 Rubikitch
-  * License: Ruby's License or GPL-2+
-:Files: bin/rdswap
-  * Copyright: 1999 C.Hintze
-  * License: Ruby's License or GPL-2+
-:Files: setup.rb
-  * Copyright: 2000-2006 Minero Aoki
-  * License: LGPL-2.1
-:Files: utils/rd-mode.el
-  * Copyright: 1999 Koji Arai, Toshiro Kuwabara.
-  * License: GPL-2+
+ Files: */
+   * Copyright: 2004 MoonWolf <moonwolf@moonwolf.com>
+                2011-2012 Youhei SASAKI <uwabami@gfd-dennou.org>
+   * License: Ruby's License or GPL-2+
+ Files: lib/rd/rd2man-lib.rb
+   * Copyright: 2000  WATANABE Hirofumi
+                2012 Youhei SASAKI <uwabami@gfd-dennou.org>
+   * License: Ruby's License or GPL-2+
+ Files: lib/rd/{head-filter,rd2html-ext-lib,rd2html-ext-opt}.rb
+   * Copyright: 2003 Rubikitch
+   * License: Ruby's License or GPL-2+
+ Files: bin/rdswap
+   * Copyright: 1999 C.Hintze
+   * License: Ruby's License or GPL-2+
+ Files: setup.rb
+   * Copyright: 2000-2006 Minero Aoki
+   * License: LGPL-2.1
+ Files: utils/rd-mode.el
+   * Copyright: 1999 Koji Arai, Toshiro Kuwabara.
+   * License: GPL-2+
 
 =end
