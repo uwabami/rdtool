@@ -70,6 +70,8 @@ RDtool include files which is copyrighted by somebody elses.
 Please read these files for those lisence info.
 
 = CHANGES
+:0.6.36
+  * Fix rd2man-lib for Ruby1.9.1, remove invalid @filename.
 :0.6.35
   * Fix rd2man-lib for Ruby1.9.1. Thanks to Salvatore Bonaccorso.
     See http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=676154
