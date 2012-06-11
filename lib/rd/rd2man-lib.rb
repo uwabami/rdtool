@@ -30,7 +30,6 @@ module RD
     def initialize
       @enumcounter = 0
       @index = {}
-      @filename = ARGF.filename
     end
 
     def visit(tree)
