@@ -1,6 +1,4 @@
-;;;
-;;; rd-mode.el
-;;; Major mode for RD editing
+;;; rd-mode.el --- Major mode for RD editing
 ;;; 
 ;;; NOTE: experimental.
 
