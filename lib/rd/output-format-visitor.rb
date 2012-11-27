@@ -12,11 +12,13 @@ module RD
 
     attr_accessor :include_suffix
     attr_accessor :filename
+    attr_accessor :input_filename
 
     def initialize
       super
       @include_suffix = self.class::INCLUDE_SUFFIX.clone
       @filename = nil
+      @input_filename = "-"
     end
 
     def apply_to_Include(element)
