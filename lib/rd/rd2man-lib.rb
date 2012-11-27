@@ -230,7 +230,7 @@ EOT
     private :meta_char_escape
 
     def guess_title
-      return ARGF.filename unless ARGF.filename == "-"
+      return @input_filename unless @input_filename == "-"
       return @filename if @filename
       "Untitled"
     end
