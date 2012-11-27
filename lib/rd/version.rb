@@ -1,6 +1,6 @@
 module RD
 
-  VERSION = '0.6.37'
+  VERSION = '0.6.38'
 
   class Version
     attr_reader :name
