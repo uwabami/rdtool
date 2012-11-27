@@ -193,12 +193,6 @@ if from_rdo
   tree = RDTree.new_from_rdo(*rdos)
   tree.include_path = include_path
 else 
-  # input from ARGF
-  src = readlines
-  if src.find{|i| /\S/ === i } and !src.find{|i| /^=begin\b/ === i }
-    src.unshift("=begin\n").push("=end\n")
-  end
-
   # set Include_Path
   if ARGF.filename
     dir = File.dirname(ARGF.filename)
@@ -207,7 +201,13 @@ else
   end
   include_path.push(dir)
   include_path.push(dir + "/include")
-  
+
+  # input from ARGF
+  src = readlines
+  if src.find{|i| /\S/ === i } and !src.find{|i| /^=begin\b/ === i }
+    src.unshift("=begin\n").push("=end\n")
+  end
+
   tree = RDTree.new(src, include_path, nil)
   
   # filter set tree.filter
