@@ -78,7 +78,7 @@ module RD
     def document_title
       return @title if @title
       return @filename if @filename
-      return ARGF.filename if ARGF.filename != "-"
+      return @input_filename unless @input_filename == "-"
       "Untitled"
     end
     private :document_title
