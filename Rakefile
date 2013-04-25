@@ -4,7 +4,7 @@ require 'rake'
 require 'rake/packagetask'
 require 'rake/testtask'
 require 'rake/clean'
-require 'date' unless defined? Date
+require 'date' unless defined? Date::today
 
 #############################################################################
 #  Helper functions
