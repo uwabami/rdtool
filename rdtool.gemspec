@@ -17,7 +17,8 @@ Gem::Specification.new do |s|
   s.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.test_files = `git ls-files -- test/*`.split("\n")
 
-  s.add_development_dependency('racc', "~> 1.4.6")
+  s.add_development_dependency('racc', "~> 1.4")
+  s.add_development_dependency('test-unit', ">= 1.2.3")
   s.add_development_dependency('rake', ">= 0") unless defined? Rake
 
   # = MANIFEST =
