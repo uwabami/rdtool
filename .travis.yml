@@ -6,5 +6,3 @@ rvm:
   - ruby-head
   - jruby-19mode
   - jruby-head
-  - mruby-head
-  - mruby-1.0.0
