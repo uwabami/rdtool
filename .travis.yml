@@ -7,5 +7,5 @@ rvm:
   - jruby-head
 matrix:
   allow_failures:
-    - ruby-head
-    - jruby-head
+    - rvm: ruby-head
+    - rvm: jruby-head
