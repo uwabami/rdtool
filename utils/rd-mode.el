@@ -423,7 +423,7 @@
   (let ((root '(nil . nil))
         cur-alist
         (cur-level 0)
-        (pattern "^\\(=+\\)[ \t\v\f]*\\(.*?\\)[ \t\v\f]*$")
+        (pattern "^\\(=+\\|---\\)[ \t\v\f]*\\(.*?\\)[ \t\v\f]*$")
         (empty-heading "-")
         (self-heading ".")
         pos level heading alist)
