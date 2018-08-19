@@ -1,11 +1,15 @@
 ;;; rd-mode.el --- Major mode for RD editing
-;;; 
+;;;
 ;;; NOTE: experimental.
+;;; $Lastupdate: 2018-08-19 23:51:49$
 
-;; Copyright (C) 1999 Koji Arai, Toshiro Kuwabara.
+;; Copyright (C) 1999-2018 Koji Arai, Toshiro Kuwabara, Youhei SASAKI
 
-;; Author: Koji Arai, Toshiro Kuwabara
+;; Author: Koji Arai, Toshiro Kuwabara, Youhei SASAKI
 ;; Created: Sat Nov 27 00:08:12 1999
+;; Version: 0.6.38
+;; Keywords: rd
+;; URL: https://github.com/uwabami/rdtool/util/rd-mode.el
 
 ;; This file is not part of GNU Emacs, but the same permissions apply.
 
@@ -50,7 +54,7 @@
   (setq paragraph-separate "=+\\|\\++\\|[ \t\n\^L]*$")
   (make-local-variable 'paragraph-start)
   (setq paragraph-start "=+\\|\\++\\|[ \t\n\^L]")
-  (make-local-variable 'require-final-newline)  
+  (make-local-variable 'require-final-newline)
   (setq require-final-newline t)
   (make-local-variable 'font-lock-defaults)
   (setq font-lock-defaults '((rd-font-lock-keywords) t nil))
@@ -186,7 +190,7 @@
     (set-buffer-modified-p mod))
   (setq selective-display t
 	selective-display-ellipses rd-selective-display-ellipses))
- 
+
 (defun rd-show-other-block ()
   "Shows lines not in RD format before current point."
   (interactive)
@@ -336,7 +340,7 @@
     (beginning-of-line)
     (looking-at "--- +\\| *\\(\\* +\\|([0-9]+) +\\)?")
     (length (buffer-substring (match-beginning 0)(match-end 0)))))
-  
+
 (defun rd-cite-region (beg end)
   "Make region into Verbatim."
   (interactive "r*")
@@ -357,7 +361,7 @@
                (rd-indent-region beg end prev-indent))
               (t
                (goto-char end)))))))
-  
+
 (defun rd-indent-region (beg end &optional indent)
   "Make the indent of region deeper by INDENT."
   (interactive "r*")
@@ -415,7 +419,7 @@
           )
     (end-of-line)
     (newline)
-    (if item (insert-string item) )
+    (if item (insert item) )
     )
   )
 
@@ -461,4 +465,3 @@
 
 (provide 'rd-mode)
 ;;; rd-mode.el ends here
-
