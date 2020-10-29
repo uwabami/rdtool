@@ -9,7 +9,7 @@
 ;; Created: Sat Nov 27 00:08:12 1999
 ;; Version: 0.6.38
 ;; Keywords: rd
-;; URL: https://github.com/uwabami/rdtool/util/rd-mode.el
+;; URL: https://github.com/uwabami/rdtool/blob/master/utils/rd-mode.el
 
 ;; This file is not part of GNU Emacs, but the same permissions apply.
 
