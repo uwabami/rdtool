@@ -47,6 +47,28 @@
 (defvar rd-mode-hook nil
   "Hooks run when entering `rd-mode' major mode")
 
+(defvar rd-mode-map
+  (let ((m (make-sparse-keymap)))
+    (define-key m (kbd "TAB")       'rd-indent-line)
+    (define-key m (kbd "C-j")       'rd-newline-and-indent)
+    (define-key m (kbd "C-c C-v")   'rd-cite-region)
+    (define-key m (kbd "C-c C-i e") 'rd-insert-emphasis)
+    (define-key m (kbd "C-c C-i c") 'rd-insert-code)
+    (define-key m (kbd "C-c C-i v") 'rd-insert-var)
+    (define-key m (kbd "C-c C-i k") 'rd-insert-keyboard)
+    (define-key m (kbd "C-c C-i i") 'rd-insert-index)
+    (define-key m (kbd "C-c C-i r") 'rd-insert-ref)
+    (define-key m (kbd "C-c C-i u") 'rd-insert-reftourl)
+    (define-key m (kbd "C-c C-i f") 'rd-insert-footnote)
+    (define-key m (kbd "C-c C-i b") 'rd-insert-verb)
+    (define-key m (kbd "C-c C-y")   'rd-yank-as-url)
+    (define-key m (kbd "C-c M-y")   'rd-yank-pop-as-url)
+    (define-key m (kbd "C-c C-u")   'rd-insert-url)
+    (define-key m (kbd "M-C-m")     'rd-intelligent-newline)
+    m)
+  "Keymap used in rd-mode.")
+
+;;;###autoload
 (define-derived-mode rd-mode text-mode "RD"
   "Major mode for RD editing.
 \\{rd-mode-map}"
@@ -66,7 +88,6 @@
   (add-hook (make-local-variable 'write-contents-hooks) 'rd-strip-cr-on-top)
   (add-hook (make-local-variable 'after-save-hook) 'rd-rehide-endline)
   (rd-hide-other-block-all)
-  (rd-setup-keys)
   (setq indent-tabs-mode nil)
   (setq imenu-create-index-function 'rd-imenu-create-index)
   (run-hooks 'rd-mode-hook)
@@ -115,25 +136,6 @@
    '("^:.*$"
      0 rd-description-face)
    ))
-
-(defun rd-setup-keys ()
-  (interactive)
-  (define-key rd-mode-map "\t" 'rd-indent-line)
-  (define-key rd-mode-map "\C-j" 'rd-newline-and-indent)
-  (define-key rd-mode-map "\C-c\C-v" 'rd-cite-region)
-  (define-key rd-mode-map "\C-c\C-ie" 'rd-insert-emphasis)
-  (define-key rd-mode-map "\C-c\C-ic" 'rd-insert-code)
-  (define-key rd-mode-map "\C-c\C-iv" 'rd-insert-var)
-  (define-key rd-mode-map "\C-c\C-ik" 'rd-insert-keyboard)
-  (define-key rd-mode-map "\C-c\C-ii" 'rd-insert-index)
-  (define-key rd-mode-map "\C-c\C-ir" 'rd-insert-ref)
-  (define-key rd-mode-map "\C-c\C-iu" 'rd-insert-reftourl)
-  (define-key rd-mode-map "\C-c\C-if" 'rd-insert-footnote)
-  (define-key rd-mode-map "\C-c\C-ib" 'rd-insert-verb)
-  (define-key rd-mode-map "\C-c\C-y" 'rd-yank-as-url)
-  (define-key rd-mode-map "\C-c\M-y" 'rd-yank-pop-as-url)
-  (define-key rd-mode-map "\C-c\C-u" 'rd-insert-url)
-  (define-key rd-mode-map "\M-\C-m" 'rd-intelligent-newline))
 
 (defun rd-strip-cr-on-top ()
   (save-excursion
@@ -462,6 +464,9 @@
             (setq cur-alist alist
                   cur-level level))))))
     (cdr root)))
+
+;;;###autoload
+(add-to-list 'auto-mode-alist '("\\.rd\\'" . rd-mode))
 
 (provide 'rd-mode)
 ;;; rd-mode.el ends here
