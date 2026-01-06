@@ -27,7 +27,7 @@ jobs:
           bundle install
           bundle exec rake test
           bundle exec rake build
-          gem install pkg/numru-narray-*.gem
+          gem install pkg/rdtool-*.gem
 # MRI:
 #   name: ${{ matrix.os }} ruby-${{ matrix.ruby }}
 #   runs-on: ${{ matrix.os }}
