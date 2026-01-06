@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
 
   s.name = 'rdtool'
   s.version = '0.6.38'
-  s.date = '2012-11-27'
+  s.date = '2026-01-06'
 
   s.summary = "RDtool is formatter for RD."
   s.description = "RD is multipurpose documentation format created for documentating Ruby and output of Ruby world. You can embed RD into Ruby script. And RD have neat syntax which help you to read document in Ruby script. On the other hand, RD have a feature for class reference."
@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.test_files = `git ls-files -- test/*`.split("\n")
 
+  s.add_dependency('nkf', '~> 0.2.0') # for 3.4
   s.add_development_dependency('racc', "~> 1.4")
   s.add_development_dependency('test-unit', ">= 1.2.3")
   s.add_development_dependency('rake', ">= 0") unless defined? Rake
