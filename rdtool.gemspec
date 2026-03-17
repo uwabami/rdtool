@@ -1,7 +1,7 @@
 # -*- coding: utf-8; mode: ruby -*-
 Gem::Specification.new do |s|
   s.name = 'rdtool'
-  s.version = '0.6.38'
+  s.version = '0.6.39'
   s.date = '2026-03-17'
 
   s.summary = "Formatter and converter for RD documents."
@@ -68,7 +68,9 @@ Gem::Specification.new do |s|
     lib/rd/rd2html-ext-opt.rb
     lib/rd/rd2html-lib.rb
     lib/rd/rd2html-opt.rb
+    lib/rd/rd2html5-lib.rb
     lib/rd/rd2man-lib.rb
+    lib/rd/rd2man-opt.rb
     lib/rd/rd2rdo-lib.rb
     lib/rd/rd2rmi-lib.rb
     lib/rd/rdblockparser.ry
@@ -111,7 +113,11 @@ Gem::Specification.new do |s|
     test/test-parser-util.rb
     test/test-rbl-file.rb
     test/test-rbl-suite.rb
+    test/test-rd2-cli.rb
     test/test-rd2html-lib.rb
+    test/test-rd2html5-lib.rb
+    test/test-rd2man-lib.rb
+    test/test-rdswap-cli.rb
     test/test-rdtree.rb
     test/test-rdvisitor.rb
     test/test-reference-resolver.rb

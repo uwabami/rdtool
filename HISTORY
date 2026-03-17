@@ -71,6 +71,12 @@ Please read these files for those lisence info.
 
 = CHANGES
 
+:0.6.39
+  * Modernize packaging metadata, CI, and release workflow for current Ruby.
+  * Refactor rd2 internals without breaking external formatter compatibility.
+  * Add configurable man section support and improve rd2man output quality.
+  * Add a simple HTML5 formatter, and document bundled format libraries.
+  * Modernize rdswap and document its purpose.
 :0.6.38
   * Fix incompatibility between Ruby1.8 and Ruby1.9
     ARGF.filename return "-" if ARGV is empty on Ruby >= 1.9
