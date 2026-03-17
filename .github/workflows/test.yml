@@ -19,6 +19,10 @@ jobs:
       TZ: "Asia/Tokyo"
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Install mandoc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mandoc
       - uses: ruby/setup-ruby@c984c1a20bb35a1cbda04477c816cea024418be9 # v1.294.0
         with:
           ruby-version: ${{ matrix.ruby-version }}
@@ -28,6 +32,11 @@ jobs:
           bundle exec rake test
           bundle exec rake build
           gem install pkg/rdtool-*.gem
+        continue-on-error: ${{ matrix.continue-on-error || false }}
+      - name: Lint rd2man output
+        run: |
+          ruby -Ilib bin/rd2 -r rd/rd2man-lib README.rd > rdtool.1
+          mandoc -T lint rdtool.1
         continue-on-error: ${{ matrix.continue-on-error || false }}
 # MRI:
 #   name: ${{ matrix.os }} ruby-${{ matrix.ruby }}
