@@ -46,6 +46,17 @@ To generate HTML explicitly, for example:
 
   % rd2 -r rd/rd2html-lib rdfile.rd > output.html
 
+RDtool also includes ((%rdswap.rb%)), which merges translated RD blocks
+back into a Ruby script. This is intended for maintaining one source
+script with embedded RD comments and generating language-specific copies.
+For example:
+
+  % rdswap.rb sample.rb sample.ja
+
+This generates ((%sample.rb.ja%)) while keeping Ruby code from
+((%sample.rb%)) and replacing matching RD blocks with translated ones
+from ((%sample.ja%)).
+
 == How to write RD?
 
 Please read doc/rd-draft.rd.

@@ -1,102 +1,151 @@
-#!/usr/bin/env ruby -s
+#!/usr/bin/env ruby
 #######
 # rdswap.rb (c) C.Hintze <c.hintze@gmx.net> 30.08.1999
 #######
 
+require "optparse"
 
-require "ostruct";
+RDDocumentBlock = Struct.new(:kind, :lines)
 
-if ARGV.size < 2 and not ($h or $help)
-    print "Wrong # of paramter! Use `-h' for help.\n";
-    exit 1;
-elsif $h or $help
-    print eval('"'+DATA.read+'"');
-    exit 0;
-end   
+class RDSwap
+  def initialize(argv, stdout: $stdout, stderr: $stderr)
+    @argv = argv.dup
+    @stdout = stdout
+    @stderr = stderr
+    @verbose = false
+  end
 
-srcfile = ARGV.select{|fn| fn =~ /\.rb$/o};
-case srcfile.size
-when 0
-    $stderr.print "Warning: No `.rb' file given! Take first file as source.\n";
-    srcfile = ARGV[0];
-when 1
-    srcfile = srcfile[0];
-else
-    print "Sorry! Only one source file (`.rb') allowed!\n";
-    exit(1);
-end
+  def run
+    parse_options!
 
-docs = {};
-srcs = {};
+    if @argv.size < 2
+      @stdout.print("Wrong # of paramter! Use `-h' for help.\n")
+      return 1
+    end
 
-rddoc, rddocs = nil, [];
-source, sources = [], [[]];
+    source_file = detect_source_file(@argv)
+    docs, srcs = load_documents(@argv)
 
-while gets
-    lang = $1 if File::basename(String($<)) =~ /^.*?([^.]+)$/o;
-    if /^=begin/o .. /^=end/o
-        title = $2 if /^=begin(\s+(.*))?$/o;
-        unless rddoc.nil?
-            unless /^=end/o
-                rddoc.lines << $_;
-            else
-                rddocs << rddoc;
-            	sources << [];
-                rddoc = nil;
-            	title = nil;
-            end
-        else               # New RD block found! Instantiate data container.
-            rddoc = OpenStruct.new
-            rddoc.kind, rddoc.lines = title, [];
+    source_blocks = srcs["rb"]
+    source_docs = docs["rb"]
+    raise "No source file content found." unless source_blocks && source_docs
+
+    (docs.keys - ["rb"]).each do |lang|
+      write_translation(source_file, lang, source_blocks, source_docs, docs[lang])
+    end
+
+    0
+  end
+
+  private
+
+  def parse_options!
+    OptionParser.new do |opts|
+      opts.on("-h", "--help") do
+        @stdout.print(help_text)
+        raise SystemExit.new(0)
+      end
+
+      opts.on("-v", "--verbose") do
+        @verbose = true
+      end
+    end.parse!(@argv)
+  end
+
+  def help_text
+    HELP_TEXT % { program_name: File.basename($PROGRAM_NAME) }
+  end
+
+  def detect_source_file(paths)
+    source_files = paths.select { |path| path.end_with?(".rb") }
+    case source_files.size
+    when 0
+      @stderr.print "Warning: No `.rb' file given! Take first file as source.\n"
+      paths.first
+    when 1
+      source_files.first
+    else
+      @stdout.print "Sorry! Only one source file (`.rb') allowed!\n"
+      raise SystemExit.new(1)
+    end
+  end
+
+  def load_documents(paths)
+    docs = {}
+    srcs = {}
+
+    paths.each do |path|
+      lang = File.basename(path).split(".").last
+      docs[lang], srcs[lang] = parse_file(path)
+    end
+
+    [docs, srcs]
+  end
+
+  def parse_file(path)
+    rddocs = []
+    sources = [[]]
+    current_doc = nil
+
+    File.foreach(path) do |line|
+      if current_doc
+        if line.start_with?("=end")
+          rddocs << current_doc
+          sources << []
+          current_doc = nil
+        else
+          current_doc.lines << line
         end
-    else                   # It is not a RD block means, it is a source line!
-        sources[-1] << $_;
+        next
+      end
+
+      if (match = /\A=begin(?:\s+(.*))?\s*\z/.match(line))
+        current_doc = RDDocumentBlock.new(match[1], [])
+      else
+        sources[-1] << line
+      end
     end
-    if $<.eof?             # One file finished. Remember data and proceed.
-        docs[lang] = rddocs;
-        srcs[lang] = sources;
-        rddoc, rddocs = nil, [];
-        source, sources = [], [[]];
+
+    [rddocs, sources]
+  end
+
+  def write_translation(source_file, lang, source_blocks, source_docs, translated_docs)
+    max = [source_blocks.size, source_docs.size, translated_docs.size].max
+    output_path = "#{source_file}.#{lang}"
+
+    File.open(output_path, "w") do |fd|
+      translated_index = 0
+
+      (0...max).each do |i|
+        fd.print(source_blocks[i].join) if source_blocks[i] && !source_blocks[i].empty?
+
+        source_doc = source_docs[i]
+        translated_doc = translated_docs[translated_index]
+        block = if source_doc && translated_doc && translated_doc.kind == source_doc.kind
+                  translated_index += 1
+                  translated_doc
+                else
+                  source_doc
+                end
+        next unless block
+
+        fd.print "=begin #{block.kind}\n", block.lines.join, "=end\n"
+      end
     end
+
+    @stdout.print "File `#{output_path}' created.\n" if @verbose
+  end
 end
 
-langs = docs.keys;
-langs.delete("rb");        # `rb' is not a language but the script!
-source = srcs["rb"];       # Assign it for preventing later look-ups
-srcdoc = docs["rb"];
-sourcesize = source.size;  # Do not recalculate size again and again.
-srcdocsize = srcdoc.size;
-
-for lang in langs
-    docblk = docs[lang];
-	max = [sourcesize, srcdocsize, docblk.size].max;
-    filename = File.join(srcfile+"."+lang);
-    open(filename, "w+") do |fd|
-        j = 0;
-        for i in 0...max   # Goto every block; be it source or RD.
-            fd.print source[i].join unless source[i].nil? || source[i].empty?;
-            sblk, dblk = srcdoc[i], docblk[j];
-            blk = (dblk and (dblk.kind == sblk.kind)) ? dblk : sblk;
-			next unless blk;
-            j += 1 if blk == dblk;
-            fd.print "=begin #{blk && blk.kind}\n", blk.lines.join, "=end\n";
-        end
-    end
-    print "File `#{filename}' created.\n" if $v;
-end
-
-exit(0);
-
-__END__
-
+HELP_TEXT = <<~TEXT
 Purpose:
    This tool is written to support you to write multi-language documents
    using the Ruby-Document-Format (RD).
 
    The idea for such a tool was originated by
-   
-   		Minero Aoki <aamine@dp.u-netsurf.ne.jp>,
-		
+
+                Minero Aoki <aamine@dp.u-netsurf.ne.jp>,
+
    how has thought about, how to make life easier for developers who have to
    write and maintain scripts in more than one language.
 
@@ -142,10 +191,10 @@ How does it work?
          blub blub
         =end
         :
-   
+
    the first block would be of type `nil' and the second one of type `whatever
    or not'.
-   
+
    Block types are important for the translation. If a source will be
    generated from a script and a translation file, only these blocks are taken
    from the translation files, that comes in the right sequence *and* contains
@@ -188,9 +237,9 @@ How does it work?
 
    That means, if the first block of `sample.de' would be of type e.g. `Never
    match', then no block would ever be taken to replace anyone of `sample.rb'.
-   
+
 Syntax:
-   #{File::basename $0} [-h|-v] <filename>...
+   %{program_name} [-h|-v] <filename>...
 
 Whereby:
    -h  shows this help text.
@@ -198,10 +247,17 @@ Whereby:
    <filename>  Means a file, that contains RD and/or Ruby code.
 
 Examples:
-   #{File::basename $0} -v sample.rb sample.ja sample.de
-   #{File::basename $0} -v sample.ja sample.rb sample.de
-   #{File::basename $0} -v sample.ja sample.de sample.rb
-   #{File::basename $0} -v sample.??
+   %{program_name} -v sample.rb sample.ja sample.de
+   %{program_name} -v sample.ja sample.rb sample.de
+   %{program_name} -v sample.ja sample.de sample.rb
+   %{program_name} -v sample.??
 
 Author:
    Clemens Hintze <c.hintze@gmx.net>.
+TEXT
+
+begin
+  exit(RDSwap.new(ARGV).run)
+rescue SystemExit => e
+  raise e
+end

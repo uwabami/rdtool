@@ -49,6 +49,17 @@ rd2はホームディレクトリにある".rd2rc"というファイルを読み
 
   % rd2 -r rd/rd2html-lib rdfile.rd > output.html
 
+また、RDtool には ((%rdswap.rb%)) も含まれています。
+これは翻訳済みの RD block を Ruby スクリプトへ差し戻すための
+ツールです。RD コメントを埋め込んだ 1 つの Ruby スクリプトを保ちつつ、
+言語ごとのコピーを生成する用途を想定しています。例えば:
+
+  % rdswap.rb sample.rb sample.ja
+
+これにより、((%sample.rb%)) の Ruby コードを保ったまま、
+対応する RD block を ((%sample.ja%)) の内容で置き換えた
+((%sample.rb.ja%)) を生成します。
+
 == RDの書き方
 
 doc/rd-draft.rdを読んでください。
