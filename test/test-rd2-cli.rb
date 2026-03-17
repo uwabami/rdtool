@@ -35,6 +35,18 @@ class TestRD2CLI < Test::Unit::TestCase
     end
   end
 
+  def test_rd2man_supports_custom_man_section
+    Dir.mktmpdir("rd2-cli") do |tmpdir|
+      input = File.join(tmpdir, "sample.rd")
+      File.write(input, "=begin\n= sample\n=end\n")
+
+      stdout, stderr, status = run_rd2(nil, "-r", "rd/rd2man-lib", "--man-section=3", input)
+
+      assert_predicate(status, :success?, stderr)
+      assert_match(/^\.TH .*SAMPLE 3 "/, stdout)
+    end
+  end
+
   private
 
   def run_rd2(extra_libdir, *args)

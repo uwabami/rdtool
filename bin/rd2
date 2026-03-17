@@ -273,7 +273,12 @@ class RD2Command
     out = Kconv.kconv(out, Kconv::NAME2CONST[@out_code], Kconv::AUTO) if @out_code
 
     if @output_file
-      filename = @output_file + "." + $Visitor.class::OUTPUT_SUFFIX
+      suffix = if $Visitor.respond_to?(:output_suffix)
+                 $Visitor.output_suffix
+               else
+                 $Visitor.class::OUTPUT_SUFFIX
+               end
+      filename = @output_file + "." + suffix
       File.open(filename, "w") { |file| file.print(out) }
       @stderr.print("#{File.basename(@program_name)}: output to #{filename}...\n")
     else
