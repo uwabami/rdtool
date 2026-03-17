@@ -16,14 +16,12 @@ class TestRBLFile < Test::Unit::TestCase
     tr_head2 = Tree.new_with_document_struct(DocumentStructure::RD)
     de_head2 = DocumentElement.new
     tr_head2.root = de_head2
-    hl1_head2, hl2_head2 = nil
-
     de_head2.build do
-      hl1_head2 = new Headline, 1 do
+      new Headline, 1 do
         new StringElement, "label1"
       end
       new TextBlock
-      hl2_head2 = new Headline, 2 do
+      new Headline, 2 do
         new StringElement, "label2"
       end
     end
@@ -33,14 +31,13 @@ class TestRBLFile < Test::Unit::TestCase
     tr_desc = Tree.new_with_document_struct(DocumentStructure::RD)
     de_desc = DocumentElement.new
     tr_desc.root = de_desc
-    hl1_desc, dt1_desc = nil
     de_desc.build do
-      hl1_desc = new(Headline, 1) do
+      new(Headline, 1) do
         new StringElement, "label1"
       end
       new DescList do
         new DescListItem do
-          dt1_desc = make_term do
+          make_term do
             new StringElement, "label2"
           end
         end

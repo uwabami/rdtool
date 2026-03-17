@@ -4,7 +4,7 @@ sub-OptionParser for rd2html-lib.rb.
 =end
 require "optparse"
 
-q = ARGV.options
+q = $RD2_OptionParser || ARGV.options
 
 q.on_tail("rd2html-lib options:")
 
@@ -62,6 +62,4 @@ q.on_tail("--html-link-rev=REV",
     # warning
   end
 end
-
-
 

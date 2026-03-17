@@ -192,7 +192,7 @@ module RD
     
     alias tell pos
     
-    def << (arg)
+    def <<(arg)
       begin
 	@content << arg.to_s
 	self

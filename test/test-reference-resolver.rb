@@ -145,7 +145,7 @@ class TestReferenceResolver < Test::Unit::TestCase
     ref = nil
     de.build do
       new TextBlock do
-        se = StringElement.new "label"
+        StringElement.new "label"
         ref = new Reference, label_ext
       end
     end

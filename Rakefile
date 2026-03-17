@@ -49,7 +49,7 @@ HTML_GENERATED = HTML_SRC.ext('.html')
 HTML_JA_SRC = FileList['**/*.rd.ja'].reject{|f| f =~/pkg/}
 HTML_JA_GENERATED = HTML_JA_SRC.collect{|x| x.gsub(/\.rd\.ja/,'.ja.html')}
 GENERATED_FILES = RACC_GENERATED + HTML_GENERATED + HTML_JA_GENERATED
-CLOBBER.push GENERATED_FILES
+CLOBBER.include(*GENERATED_FILES.to_a)
 
 desc "Update parser"
 task :racc => RACC_GENERATED

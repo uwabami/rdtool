@@ -193,7 +193,7 @@ this module provide several functions for MehotList.
       indexes = []
       tree.each do |i|
 	if i.is_a?(MethodListItem)
-	  klass, kind, method, args = analize_method(i.term.content)
+	  klass, kind, method, _args = analize_method(i.term.content)
 	  indexes.push([klass, kind2num(kind), method, kind]) if kind
 	end
       end
@@ -211,4 +211,3 @@ end # RD
  $Id: rdvisitor.rb,v 1.46 2003/02/18 16:20:25 tosh Exp $
 
 =end
-

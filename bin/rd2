@@ -52,232 +52,253 @@ end
 include RD
 
 SYSTEM_NAME = "RDtool -- rd2"
-SYSTEM_VERSION = "$Version: "+RD::VERSION + "$" #"
+SYSTEM_VERSION = "$Version: " + RD::VERSION + "$" #"
 RD2_VERSION = Version.new_from_version_string(SYSTEM_NAME, SYSTEM_VERSION)
 
-# global vars
 $Visitor_Class = nil
 $Visitor = nil
 $RD2_Sub_OptionParser = nil
-
-# local vars
-include_path = []
-with_part = []
-output_file = nil
-output_index = nil
-out_code = nil
-from_rdo = nil
-
-# user option
+$RD2_OptionParser = nil
 $DEFAULT_FORMAT_LIB = "rd/rd2html-lib"
 $RC = {}
 $RC["filter"] = Hash.new(RD::INCLUDE_FILTER)
-begin
-  if test(?r, File.expand_path("~/.rd2rc"))
-    load "~/.rd2rc"
-    #  STDERR << "#{$0}: loading ~/.rd2rc\n"
-  else
-    load "rd/dot.rd2rc"
-    #  STDERR << "#{$0}: loading rd/dot.rd2rc\n"
-  end
-rescue
-  load "rd/dot.rd2rc"
-end
 
-# initialize OptionParser
-ARGV.options do |q|
-  q.banner = "Usage: #{$0} [options] rd-file > output\n"
-  q.on_head("global options:")
-  
-  q.on("-rLIB", "--require=LIB",
-       String,
-       "choose format library.") do |i|
-    # require LIB
-    require i
-    if $Visitor_Class && !$Visitor
-      $Visitor = $Visitor_Class.new()
-      if $RD2_Sub_OptionParser    
-	require $RD2_Sub_OptionParser
-	$RD2_Sub_OptionParser = nil
+class RD2Command
+  PartArgument = Struct.new(:part, :filter)
+
+  def initialize(argv: ARGV, argf: ARGF, stdout: $stdout, stderr: $stderr, program_name: $PROGRAM_NAME)
+    @argv = argv
+    @argf = argf
+    @stdout = stdout
+    @stderr = stderr
+    @program_name = program_name
+    @include_path = []
+    @with_part = []
+    @output_file = nil
+    @output_index = false
+    @out_code = nil
+    @from_rdo = false
+  end
+
+  def run
+    load_user_config
+    require_implicit_format_lib
+
+    begin
+      option_parser.parse!(@argv)
+    rescue OptionParser::ParseError => e
+      @stderr.print("Error: #{e.inspect}\n")
+      @stderr.print(option_parser.to_s)
+      return 1
+    end
+
+    load_default_format_library unless $Visitor_Class
+    ensure_visitor_loaded
+    $Visitor.input_filename = @argf.filename
+
+    tree = build_tree
+    configure_visitor
+    write_output(tree, $Visitor.visit(tree))
+    write_index(tree) if @output_index
+    0
+  rescue Racc::ParseError => e
+    @stderr.puts(e.message)
+    10
+  ensure
+    cleanup_tmp_files
+  end
+
+  private
+
+  def option_parser
+    @option_parser ||= @argv.options do |q|
+      $RD2_OptionParser = q
+      q.banner = "Usage: #{File.basename(@program_name)} [options] rd-file > output\n"
+      q.on_head("global options:")
+
+      q.on("-rLIB", "--require=LIB", String, "choose format library.") do |lib|
+        load_format_library(lib)
+      end
+
+      q.on("-oNAME", String, "indicate base name of output file") do |name|
+        @output_file = name
+      end
+
+      q.on("--out-code=KCODE",
+           Kconv::NAME2CONST.keys, Kconv::NAME_ALIAS,
+           "character encoding of output.(jis|euc|sjis|utf8)") do |code|
+        @out_code = code
+      end
+
+      q.on("--output-index", "output method index file (*.rmi)") do
+        @output_index = true
+      end
+
+      q.on("-IPATH", "--include-path=PATH", String,
+           "add PATH to list of include path") do |path|
+        @include_path.unshift(path)
+      end
+
+      q.accept(PartArgument, /(\w+)(?:\s*:\s*(\w+))?/) do |_src, part, filter|
+        PartArgument.new(part, filter || part)
+      end
+      q.on("--with-part=PART", PartArgument, "include PART with Filter") do |entry|
+        @with_part << entry
+        unless @include_path.include?(RD::RDTree.tmp_dir)
+          @include_path << RD::RDTree.tmp_dir
+        end
+      end
+
+      q.on("--from-rdo", "load from *.rdo instead of *.rd") do
+        @from_rdo = true
+      end
+
+      q.on("--version", "print versions.") do
+        @stderr.puts(RD2_VERSION)
+        @stderr.puts(Tree::version)
+        @stderr.puts(Visitor::version)
+        @stderr.puts($Visitor_Class.version) if $Visitor_Class
+        raise SystemExit.new(0)
+      end
+
+      q.on_tail("--help", "print this message") do
+        @stderr.print(q.to_s)
+        raise SystemExit.new(0)
       end
     end
   end
 
-  q.on("-oNAME",
-       String,
-       "indicate base name of output file") do |i|
-    output_file = i
+  def load_user_config
+    user_config = File.expand_path("~/.rd2rc")
+    if File.readable?(user_config)
+      load user_config
+    else
+      load "rd/dot.rd2rc"
+    end
+  rescue LoadError, StandardError
+    load "rd/dot.rd2rc"
   end
 
-  q.on("--out-code=KCODE",
-       Kconv::NAME2CONST.keys, Kconv::NAME_ALIAS,
-       "character encoding of output.(jis|euc|sjis|utf8)") do |i|
-    out_code = i
-  end
-      
-  q.on("--output-index",
-       "output method index file (*.rmi)") do |i|
-    output_index = true
+  def require_implicit_format_lib
+    base = File.basename(@program_name, ".*").downcase
+    return unless /rd2.+/ =~ base
+
+    load_format_library("rd/#{$&}-lib.rb")
   end
 
-  q.on("-IPATH", "--include-path=PATH",
-       String,
-       "add PATH to list of include path") do |i|
-    # add to include path
-    include_path.unshift(i)
+  def load_format_library(lib)
+    require lib
+    ensure_visitor_loaded
   end
 
-  # accept "PART:FILTER" and "PART"
-  class PART ; end
-  q.accept(PART, /(\w+)(?:\s*:\s*(\w+))?/) {|s, p, f| [s, p, f] }
-  q.on("--with-part=PART",
-       PART,
-       "include PART with Filter") do |src, part, filter|
-    with_part.push([part, filter || part])
-    unless include_path.index(RD::RDTree.tmp_dir)
-      include_path.push(RD::RDTree.tmp_dir)
+  def load_default_format_library
+    load_format_library($DEFAULT_FORMAT_LIB)
+  end
+
+  def ensure_visitor_loaded
+    return unless $Visitor_Class
+    return if $Visitor
+
+    $Visitor = $Visitor_Class.new
+    load_sub_option_parser
+  end
+
+  def load_sub_option_parser
+    return unless $RD2_Sub_OptionParser
+
+    require $RD2_Sub_OptionParser
+    $RD2_Sub_OptionParser = nil
+  end
+
+  def build_tree
+    if @from_rdo
+      build_tree_from_rdo
+    else
+      build_tree_from_rd
     end
   end
 
-  q.on("--from-rdo",
-       "load from *.rdo instead of *.rd") do
-    from_rdo = true
+  def build_tree_from_rdo
+    rdos = []
+    @argv.each do |path|
+      rdos << File.open(path)
+      dirname = File.dirname(path)
+      @include_path.push(dirname, File.join(dirname, "include"))
+    end
+    tree = RDTree.new_from_rdo(*rdos)
+    tree.include_path = @include_path
+    tree
+  ensure
+    rdos&.each(&:close)
   end
 
-  q.on("--version",
-       "print versions.") do
-    STDERR.puts RD2_VERSION
-    STDERR.puts Tree::version
-    STDERR.puts Visitor::version
-    STDERR.puts $Visitor_Class.version if $Visitor_Class
-    exit(0)
-  end
+  def build_tree_from_rd
+    dir = @argf.filename ? File.dirname(@argf.filename) : "."
+    @include_path.push(dir, File.join(dir, "include"))
 
-  q.on_tail("--help",
-	    "print this message") do
-    STDERR.print(q.to_s)
-    exit(0)
-  end
-end # OptionParser.new
+    src = read_input_lines
+    if src.find { |line| /\S/ === line } && !src.find { |line| /^=begin\b/ === line }
+      src.unshift("=begin\n").push("=end\n")
+    end
 
-# require format lib implicitly
-if /rd2.+/ =~ File.basename($0, ".*").downcase
-  visitor_lib = "rd/" + $& + "-lib.rb"
-  require visitor_lib
-  require $RD2_Sub_OptionParser  if $RD2_Sub_OptionParser
-  # make visitor
-  $Visitor = $Visitor_Class.new()
-end
-
-begin
-  ARGV.parse!
-rescue
-  STDERR.print("Error: " + $!.inspect + "\n")
-  STDERR.print(ARGV.options.to_s)
-  exit(1)
-end
-
-unless $Visitor_Class
-  require $DEFAULT_FORMAT_LIB
-  $Visitor = $Visitor_Class.new
-end
-
-$Visitor.input_filename = ARGF.filename
-
-# make tree (but not parsed yet)
-if from_rdo
-  rdos = []
-  ARGV.each do |path|
-    rdos.push(File.open(path))
-    dirname = File.dirname(path)
-    include_path.push(dirname, dirname + "/include")
-  end
-  tree = RDTree.new_from_rdo(*rdos)
-  tree.include_path = include_path
-else 
-  # set Include_Path
-  if ARGF.filename
-    dir = File.dirname(ARGF.filename)
-  else
-    dir = "."
-  end
-  include_path.push(dir)
-  include_path.push(dir + "/include")
-
-  # input from ARGF
-  src = readlines
-  if src.find{|i| /\S/ === i } and !src.find{|i| /^=begin\b/ === i }
-    src.unshift("=begin\n").push("=end\n")
-  end
-
-  tree = RDTree.new(src, include_path, nil)
-  
-  # filter set tree.filter
-  with_part.each do |i|
-    tree.filter[i[0]] = $RC["filter"][i[1]]
-  end
-  
-  # parse
-  begin
+    tree = RDTree.new(src, @include_path, nil)
+    @with_part.each do |entry|
+      tree.filter[entry.part] = $RC["filter"][entry.filter]
+    end
     tree.parse
-  rescue Racc::ParseError
-    STDERR.puts($!.message)
-    exit(10)
+    tree
   end
-end
 
-# filter: set visitor.include_suffix
-with_part.each do |i|
-  $Visitor.include_suffix.push(i[0])
-end
-
-# file base name setup
-$Visitor.filename = output_file if output_file
-
-# character encoding
-if out_code
-  begin
-    $Visitor.charcode = out_code
-    $Visitor.lang = "ja"
-  rescue NameError
+  def read_input_lines
+    @argf.readlines
   end
-end
 
-# output  
-out = $Visitor.visit(tree)
+  def configure_visitor
+    @with_part.each do |entry|
+      $Visitor.include_suffix.push(entry.part)
+    end
 
-# character encoding convert
-out = Kconv.kconv(out, Kconv::NAME2CONST[out_code], Kconv::AUTO) if out_code
+    $Visitor.filename = @output_file if @output_file
 
-if output_file
-  filename = output_file + "." + $Visitor.class::OUTPUT_SUFFIX
-  file = open(filename, "w")
-  file.print(out)
-  file.close
-  STDERR.print("#{$0}: output to #{filename}...\n")
-else
-  print(out)
-end
+    return unless @out_code
 
-# RMI
-if output_index
-  if output_file
+    begin
+      $Visitor.charcode = @out_code
+      $Visitor.lang = "ja"
+    rescue NameError
+    end
+  end
+
+  def write_output(tree, out)
+    out = Kconv.kconv(out, Kconv::NAME2CONST[@out_code], Kconv::AUTO) if @out_code
+
+    if @output_file
+      filename = @output_file + "." + $Visitor.class::OUTPUT_SUFFIX
+      File.open(filename, "w") { |file| file.print(out) }
+      @stderr.print("#{File.basename(@program_name)}: output to #{filename}...\n")
+    else
+      @stdout.print(out)
+    end
+  end
+
+  def write_index(tree)
+    unless @output_file
+      raise %Q[Error: option "--output-index" must be used with option "-oNAME"]
+    end
+
     require "rd/rd2rmi-lib"
     rmivisitor = RD2RMIVisitor.new
-    rmivisitor.filename = output_file
-    rmi = rmivisitor.visit(tree)
-    filename = output_file + ".rmi"
-    file = open(filename, "w")
-    file.print(rmi)
-    file.close
-    STDERR.print("#{$0}: output to #{filename}...\n")
-  else
-    raise %Q[Error: option "--output-index" must be used with option "-oNAME"]
+    rmivisitor.filename = @output_file
+    filename = @output_file + ".rmi"
+    File.open(filename, "w") { |file| file.print(rmivisitor.visit(tree)) }
+    @stderr.print("#{File.basename(@program_name)}: output to #{filename}...\n")
+  end
+
+  def cleanup_tmp_files
+    Dir.glob("#{RD::RDTree.tmp_dir}/rdtmp.#{$$}.*.*").each do |path|
+      File.delete(path)
+    end
   end
 end
 
-
-# filter: remove tmp file
-Dir.glob("#{RD::RDTree.tmp_dir}/rdtmp.#{$$}.*.*").each do |i|
-  File.delete(i)
-end
+exit(RD2Command.new.run)

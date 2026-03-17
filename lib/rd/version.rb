@@ -6,9 +6,9 @@ module RD
     attr_reader :name
     attr_reader :major, :minor, :patch_level
 
-    def Version.new_from_version_string(name, version_str)
-      major, minor, patch_level, *dummy = analyze_version_string(version_str)
-      return Version.new(name, major, minor, patch_level)
+    def self.new_from_version_string(name, version_str)
+      major, minor, patch_level, = analyze_version_string(version_str)
+      Version.new(name, major, minor, patch_level)
     end
     
     def initialize(name, major, minor, patch_level)
@@ -18,7 +18,7 @@ module RD
       @patch_level = patch_level
     end
 
-    def Version.analyze_version_string(version_str)
+    def self.analyze_version_string(version_str)
       version_str = clean_up_version_string(version_str)
       version_str.split(/\./).collect{|i| i.to_i }
     end
@@ -30,7 +30,7 @@ module RD
       result
     end
 
-    def Version.clean_up_version_string(version_str)
+    def self.clean_up_version_string(version_str)
       if /^\$Version:?\s*(.*)\$/ === version_str
 	$1
       else

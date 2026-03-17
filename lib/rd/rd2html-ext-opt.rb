@@ -7,7 +7,7 @@ Licence: Ruby's License or GPL-2+
 =end
 require 'rd/rd2html-opt'
 
-q = ARGV.options
+q = $RD2_OptionParser || ARGV.options
 
 q.on_tail("--ref-extension") do
   $Visitor.opt_ref_extension = true

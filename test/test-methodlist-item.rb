@@ -34,7 +34,6 @@ class TestMethodListItem < Test::Unit::TestCase
   def test_inspect
     mi = MethodListItem.new
     mt = MethodListItem::Term.new
-    se = StringElement.new "string"
     tb = TextBlock.new
     mi.set_term_under_document_struct(mt, DocumentStructure::RD)
     mi.add_child_under_document_struct(tb, DocumentStructure::RD)
