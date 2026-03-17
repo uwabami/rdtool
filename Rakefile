@@ -1,5 +1,4 @@
 # -*- mode: ruby; coding: utf-8 -*-
-require 'rubygems'
 require 'rake'
 require 'rake/packagetask'
 require 'rake/testtask'
@@ -22,16 +21,20 @@ def date
   Date.today.to_s
 end
 
-def rubyforge_project
-  name
-end
-
 def gemspec_file
   "#{name}.gemspec"
 end
 
 def gem_file
   "#{name}-#{version}.gem"
+end
+
+def current_branch
+  `git rev-parse --abbrev-ref HEAD`.strip
+end
+
+def clean_worktree?
+  `git status --porcelain`.strip.empty?
 end
 
 def replace_header(head, header_name)
@@ -83,13 +86,17 @@ end
 
 desc "Create tag v#{version} and build and push #{gem_file} to Rubygems"
 task :release => :build do
-  unless `git branch` =~ /^\* master$/
-    puts "You must be on the master branch to release!"
-    exit!
+  unless clean_worktree?
+    abort "Release requires a clean git worktree."
   end
-  sh "git commit --allow-empty -a -m 'Release #{version}'"
+
+  branch = current_branch
+  if branch.empty? || branch == "HEAD"
+    abort "Release requires a named git branch."
+  end
+
   sh "git tag v#{version}"
-  sh "git push origin master"
+  sh "git push origin #{branch}"
   sh "git push origin v#{version}"
   sh "gem push pkg/#{name}-#{version}.gem"
 end
@@ -112,7 +119,6 @@ task :gemspec => [:racc, :doc, :bump_version] do
   replace_header(head, :name)
   replace_header(head, :version)
   replace_header(head, :date)
-  # replace_header(head, :rubyforge_project)
   files = (`git ls-files`.split("\n") + GENERATED_FILES.to_a).
     sort.
     reject {|file| file =~/^\./}.

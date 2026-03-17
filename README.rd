@@ -11,9 +11,19 @@ See HISTORY.
 
 == How to Install
 
- (1)((%su%)) if you install into public directories.
- (2)((%ruby setup.rb%))
- (3)If you want to use , utils/rd-mode.el, install it ((*by hand*)).
+Install the released gem:
+
+  % gem install rdtool
+
+For development:
+
+  % bundle install
+  % bundle exec rake test
+  % bundle exec rake build
+
+If you want to use utils/rd-mode.el, install it ((*by hand*)).
+
+The legacy ((%ruby setup.rb%)) flow is kept only for compatibility.
 
 == How to use
 
@@ -31,6 +41,10 @@ the indication of format-library. For example,
   % rd2 -r rd/rd2html-lib.rb --help
 
 rd2 load "${HOME}/.rd2rc" when it runs.
+
+To generate HTML explicitly, for example:
+
+  % rd2 -r rd/rd2html-lib rdfile.rd > output.html
 
 == How to write RD?
 

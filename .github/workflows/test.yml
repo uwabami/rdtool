@@ -23,7 +23,6 @@ jobs:
           bundler-cache: true
       - name: Tests
         run: |
-          bundle install
           bundle exec rake test
           bundle exec rake build
           gem install pkg/rdtool-*.gem

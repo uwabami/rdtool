@@ -12,10 +12,20 @@ HISTORYを見てください。
 
 == インストールの方法
 
- (1)必要なら、((%su%))
- (2)((%ruby setup.rb%))
- (3)utils/rd-mode.elを使いたいならば
-    それらを((*手で*))インストールします。
+公開された gem を使うなら:
+
+  % gem install rdtool
+
+開発時は:
+
+  % bundle install
+  % bundle exec rake test
+  % bundle exec rake build
+
+utils/rd-mode.el を使いたいなら、
+それらは((*手で*))インストールします。
+
+従来の ((%ruby setup.rb%)) 方式は互換性のために残してあります。
 
 == どうやって使うか。
 
@@ -34,6 +44,10 @@ HISTORYを見てください。
 
 rd2はホームディレクトリにある".rd2rc"というファイルを読み込みます。
 これはRubyスクリプトです。
+
+例えば HTML を明示的に生成するなら:
+
+  % rd2 -r rd/rd2html-lib rdfile.rd > output.html
 
 == RDの書き方
 

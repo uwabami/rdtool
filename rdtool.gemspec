@@ -1,26 +1,28 @@
 # -*- coding: utf-8; mode: ruby -*-
 Gem::Specification.new do |s|
-  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.rubygems_version = "1.3.5"
-
   s.name = 'rdtool'
   s.version = '0.6.38'
-  s.date = '2026-01-06'
+  s.date = '2026-03-17'
 
-  s.summary = "RDtool is formatter for RD."
-  s.description = "RD is multipurpose documentation format created for documentating Ruby and output of Ruby world. You can embed RD into Ruby script. And RD have neat syntax which help you to read document in Ruby script. On the other hand, RD have a feature for class reference."
+  s.summary = "Formatter and converter for RD documents."
+  s.description = "RDtool parses RD documents and converts them to formats such as HTML and roff. It also includes utilities for working with RD embedded in Ruby source files."
   s.authors = ["Youhei SASAKI"]
   s.email = "uwabami@gfd-dennou.org"
-  s.homepage = "http://github.com/uwabami/rdtool"
-  s.licenses = ["GPL-2+", "Ruby"]
+  s.homepage = "https://github.com/uwabami/rdtool"
+  s.licenses = ["GPL-2.0-or-later", "Ruby"]
+  s.required_ruby_version = ">= 3.2"
   s.require_paths = ["lib"]
-  s.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  s.test_files = `git ls-files -- test/*`.split("\n")
+  s.executables = %w[rd2 rdswap.rb]
+  s.metadata = {
+    "bug_tracker_uri" => "https://github.com/uwabami/rdtool/issues",
+    "changelog_uri" => "https://github.com/uwabami/rdtool/blob/main/HISTORY",
+    "source_code_uri" => "https://github.com/uwabami/rdtool",
+  }
 
-  s.add_dependency('nkf', '~> 0.2.0') # for 3.4
+  s.add_dependency('nkf', '>= 0.1', '< 1.0')
   s.add_development_dependency('racc', "~> 1.4")
-  s.add_development_dependency('test-unit', ">= 1.2.3")
-  s.add_development_dependency('rake', ">= 0") unless defined? Rake
+  s.add_development_dependency('test-unit', "~> 3.0")
+  s.add_development_dependency('rake', "~> 13.0")
 
   # = MANIFEST =
   s.files = %w[
