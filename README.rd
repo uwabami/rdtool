@@ -42,9 +42,47 @@ the indication of format-library. For example,
 
 rd2 load "${HOME}/.rd2rc" when it runs.
 
-To generate HTML explicitly, for example:
+Bundled format libraries include:
+
+:((%rd/rd2html-lib%))
+  XHTML-style HTML output. Main options include ((%--with-css=FILE%)),
+  ((%--html-charset=CHARSET%)), ((%--html-lang=LANG%)),
+  ((%--html-title=TITLE%)), ((%--html-link-rel=REL%)),
+  ((%--html-link-rev=REV%)), and ((%--output-rbl%)).
+
+:((%rd/rd2html-ext-lib%))
+  Extended HTML output with headline numbering and related features.
+  Main additional options include ((%--ref-extension%)),
+  ((%--headline-title%)), ((%--headline-secno%)),
+  ((%--enable-br%)), ((%--native-inline%)), and ((%--head-element%)).
+
+:((%rd/rd2html5-lib%))
+  HTML5 output. It accepts the same main options as ((%rd/rd2html-lib%)),
+  such as ((%--with-css=FILE%)), ((%--html-charset=CHARSET%)),
+  ((%--html-lang=LANG%)), and ((%--html-title=TITLE%)).
+
+:((%rd/rd2man-lib%))
+  man page output. The main option is ((%--man-section=SECTION%)).
+
+:((%rd/rd2rdo-lib%))
+  Dumps the parsed RD tree as Marshal data.
+
+:((%rd/rd2rmi-lib%))
+  Outputs method index data for reference lookup.
+
+For example, to generate HTML explicitly:
 
   % rd2 -r rd/rd2html-lib rdfile.rd > output.html
+
+To generate HTML5 or a man page:
+
+  % rd2 -r rd/rd2html5-lib rdfile.rd > output.html
+  % rd2 -r rd/rd2man-lib rdfile.rd > output.1
+
+To check detailed options for a specific formatter, run:
+
+  % rd2 -r rd/rd2html-ext-lib --help
+  % rd2 -r rd/rd2man-lib --help
 
 RDtool also includes ((%rdswap.rb%)), which merges translated RD blocks
 back into a Ruby script. This is intended for maintaining one source

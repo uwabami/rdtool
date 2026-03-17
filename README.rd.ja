@@ -45,9 +45,50 @@ utils/rd-mode.el を使いたいなら、
 rd2はホームディレクトリにある".rd2rc"というファイルを読み込みます。
 これはRubyスクリプトです。
 
+同梱されている主なフォーマットライブラリは次の通りです。
+
+:((%rd/rd2html-lib%))
+  XHTML 風の HTML を出力します。主なオプションは
+  ((%--with-css=FILE%)), ((%--html-charset=CHARSET%)),
+  ((%--html-lang=LANG%)), ((%--html-title=TITLE%)),
+  ((%--html-link-rel=REL%)), ((%--html-link-rev=REV%)),
+  ((%--output-rbl%)) です。
+
+:((%rd/rd2html-ext-lib%))
+  見出し番号などを追加した拡張 HTML を出力します。
+  主な追加オプションは ((%--ref-extension%)),
+  ((%--headline-title%)), ((%--headline-secno%)),
+  ((%--enable-br%)), ((%--native-inline%)),
+  ((%--head-element%)) です。
+
+:((%rd/rd2html5-lib%))
+  HTML5 を出力します。主なオプションは ((%rd/rd2html-lib%)) と同様で、
+  ((%--with-css=FILE%)), ((%--html-charset=CHARSET%)),
+  ((%--html-lang=LANG%)), ((%--html-title=TITLE%)) などが使えます。
+
+:((%rd/rd2man-lib%))
+  man page を出力します。主なオプションは
+  ((%--man-section=SECTION%)) です。
+
+:((%rd/rd2rdo-lib%))
+  解析済みの RD tree を Marshal data として出力します。
+
+:((%rd/rd2rmi-lib%))
+  参照解決用の method index data を出力します。
+
 例えば HTML を明示的に生成するなら:
 
   % rd2 -r rd/rd2html-lib rdfile.rd > output.html
+
+HTML5 や man page を生成するなら:
+
+  % rd2 -r rd/rd2html5-lib rdfile.rd > output.html
+  % rd2 -r rd/rd2man-lib rdfile.rd > output.1
+
+各 formatter の詳細なオプションを確認するには、例えば:
+
+  % rd2 -r rd/rd2html-ext-lib --help
+  % rd2 -r rd/rd2man-lib --help
 
 また、RDtool には ((%rdswap.rb%)) も含まれています。
 これは翻訳済みの RD block を Ruby スクリプトへ差し戻すための
