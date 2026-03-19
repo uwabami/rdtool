@@ -1,0 +1,46 @@
+name: Mirror Actions badge to gh-pages
+
+on:
+  workflow_run:
+    workflows: ["Test"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mirror-badge-to-gh-pages
+  cancel-in-progress: false
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          fetch-depth: 0
+
+      - name: Download badge.svg
+        run: |
+          set -euxo pipefail
+          mkdir -p software/rdtool/badges
+          curl -L \
+            -o software/rdtool/badges/test.svg \
+            "https://github.com/uwabami/rdtool/actions/workflows/test.yml/badge.svg"
+
+      - name: Commit & push if changed
+        run: |
+          set -euxo pipefail
+          if git diff --quiet -- software/rdtool/badges/test.svg; then
+            echo "No changes in badge."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add software/rdtool/badges/test.svg
+          git commit -m "Mirror CI badge (Test)"
+          git push origin gh-pages
