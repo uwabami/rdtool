@@ -26,15 +26,14 @@ jobs:
       - name: Download badge.svg
         run: |
           set -euxo pipefail
-          mkdir -p software/rdtool/badges
           curl -L \
-            -o software/rdtool/badges/test.svg \
+            -o badge.svg \
             "https://github.com/uwabami/rdtool/actions/workflows/test.yml/badge.svg"
 
       - name: Commit & push if changed
         run: |
           set -euxo pipefail
-          if git diff --quiet -- software/rdtool/badges/test.svg; then
+          if git diff --quiet -- badge.svg; then
             echo "No changes in badge."
             exit 0
           fi
