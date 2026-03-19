@@ -9,10 +9,6 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: mirror-badge-to-gh-pages
-  cancel-in-progress: false
-
 jobs:
   mirror:
     runs-on: ubuntu-latest
@@ -26,8 +22,7 @@ jobs:
       - name: Download badge.svg
         run: |
           set -euxo pipefail
-          curl -L \
-            -o badge.svg \
+          curl -L -o badge.svg \
             "https://github.com/uwabami/rdtool/actions/workflows/test.yml/badge.svg"
 
       - name: Commit & push if changed
@@ -40,6 +35,6 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add software/rdtool/badges/test.svg
+          git add bardge.svg
           git commit -m "Mirror CI badge (Test)"
           git push origin gh-pages
