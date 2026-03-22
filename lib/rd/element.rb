@@ -131,7 +131,7 @@ module RD
     end
 
     def indent2(str)
-      buf = ''
+      buf = +''
       str.each_line{|i| buf << "  " << i }
       buf
     end

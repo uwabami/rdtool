@@ -35,7 +35,7 @@ module RD
       end
 
       def calculate_label
-	ret = ""
+	ret = +""
 	children.each do |i|
 	  ret.concat(i.to_label)
 	end

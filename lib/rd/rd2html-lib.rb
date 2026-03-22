@@ -2,7 +2,7 @@
 = rd2html-lib.rb
 =end
 
-require "cgi"
+require "cgi/escape"
 require "rd/rdvisitor"
 require "rd/version"
 

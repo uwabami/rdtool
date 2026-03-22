@@ -34,7 +34,7 @@ module RD
     end
 
     def to_label
-      ret = ""
+      ret = +""
       children.each do |i|
 	ret << i.to_label
       end
@@ -221,7 +221,7 @@ module RD
       end
 
       def extract_label(elements)
-	ret = ""
+	ret = +""
 	elements.each do |i|
 	  ret << i.to_label
 	end

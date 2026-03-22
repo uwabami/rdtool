@@ -33,7 +33,7 @@ module RD
     end
 
     def calculate_label
-      ret = ""
+      ret = +""
       @title.each do |i|
 	ret << i.to_label
       end
