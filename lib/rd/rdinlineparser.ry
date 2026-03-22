@@ -367,7 +367,7 @@ def_delegator(:@blockp, :tree)
 
 def parse(src)
   @src = StringScanner.new(src)
-  @pre = ""
+  @pre = +""
   @yydebug = true
   do_parse
 end
